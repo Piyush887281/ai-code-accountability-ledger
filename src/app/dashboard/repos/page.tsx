@@ -12,10 +12,13 @@ export default async function RepositoriesPage() {
 
   return (
     <div>
-      <div style={{ marginBottom: 'var(--space-8)' }}>
-        <h1 className="text-h1" style={{ marginBottom: 'var(--space-1)' }}>Repositories</h1>
+      <div style={{ marginBottom: "var(--space-8)" }}>
+        <h1 className="text-h1" style={{ marginBottom: "var(--space-1)" }}>
+          Repositories
+        </h1>
         <p className="text-muted">
-          Select a GitHub repository to connect to your organization. The system will ingest historical commits and pull requests.
+          Select a GitHub repository to connect to your organization. The system
+          will ingest historical commits and pull requests.
         </p>
       </div>
 

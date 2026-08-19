@@ -19,7 +19,7 @@ export async function createOrganizationAction(formData: FormData) {
   // Generate a basic slug
   const baseSlug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
   let slug = baseSlug;
-  
+
   // Basic collision handling for V1
   const existingOrg = await OrganizationRepository.findBySlug(slug);
   if (existingOrg) {

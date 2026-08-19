@@ -26,27 +26,34 @@ export class GitHubService {
   static async getAccessibleRepositories(userId: string) {
     const token = await this.getUserAccessToken(userId);
 
-    // Using the GitHub REST API to get installations (if using GitHub App) 
+    // Using the GitHub REST API to get installations (if using GitHub App)
     // or user repos (if using OAuth). Since we set up an OAuth app in Phase 1,
     // we fetch the user's repos.
-    
+
     // Note: To fetch repos from orgs, the OAuth app needs the 'repo' scope.
-    const response = await fetch("https://api.github.com/user/repos?per_page=100&sort=updated", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/vnd.github.v3+json",
+    const response = await fetch(
+      "https://api.github.com/user/repos?per_page=100&sort=updated",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/vnd.github.v3+json",
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       if (response.status === 401 || response.status === 403) {
-        throw new Error(`GitHub API authentication failed: ${response.statusText}. Please ensure your GitHub App has the correct permissions (Metadata, Contents, PRs).`);
+        throw new Error(
+          `GitHub API authentication failed: ${response.statusText}. Please ensure your GitHub App has the correct permissions (Metadata, Contents, PRs).`,
+        );
       }
-      throw new Error(`Failed to fetch repositories from GitHub: ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch repositories from GitHub: ${response.statusText}`,
+      );
     }
 
     const repos = await response.json();
-    
+
     return repos.map((repo: any) => ({
       externalId: repo.id.toString(),
       name: repo.full_name,
@@ -60,7 +67,11 @@ export class GitHubService {
    * Connects a specific repository to an organization.
    * Now accepts userId so we can copy the OAuth token into the Integration record.
    */
-  static async connectRepository(organizationId: string, userId: string, repoData: any) {
+  static async connectRepository(
+    organizationId: string,
+    userId: string,
+    repoData: any,
+  ) {
     // Fetch the user's GitHub OAuth token so downstream services can use it
     const accessToken = await this.getUserAccessToken(userId);
 
@@ -90,7 +101,7 @@ export class GitHubService {
         integrationId_externalId: {
           integrationId: integration.id,
           externalId: repoData.externalId,
-        }
+        },
       },
       create: {
         organizationId,
@@ -105,7 +116,7 @@ export class GitHubService {
         url: repoData.url,
         defaultBranch: repoData.defaultBranch,
         isActive: true,
-      }
+      },
     });
 
     const [owner, repo] = repository.name.split("/");
@@ -124,4 +135,3 @@ export class GitHubService {
     return repository;
   }
 }
-

@@ -6,12 +6,21 @@ import { GitHubService } from "./services/github.service";
 import { revalidatePath } from "next/cache";
 
 export async function fetchAccessibleRepositoriesAction() {
+  console.log("SERVER ACTION: fetchAccessibleRepositoriesAction START");
   const session = await auth();
   if (!session?.user?.id) {
+    console.log(
+      "SERVER ACTION: fetchAccessibleRepositoriesAction Unauthorized",
+    );
     throw new Error("Unauthorized");
   }
 
-  return GitHubService.getAccessibleRepositories(session.user.id);
+  const result = await GitHubService.getAccessibleRepositories(session.user.id);
+  console.log(
+    "SERVER ACTION: fetchAccessibleRepositoriesAction DONE, repos:",
+    result?.length,
+  );
+  return result;
 }
 
 export async function connectRepositoryAction(repoData: any) {
@@ -29,10 +38,14 @@ export async function connectRepositoryAction(repoData: any) {
   const organizationId = memberships[0].organizationId;
 
   // Connect repo (pass userId so the OAuth token gets stored on the Integration)
-  const repo = await GitHubService.connectRepository(organizationId, session.user.id, repoData);
-  
+  const repo = await GitHubService.connectRepository(
+    organizationId,
+    session.user.id,
+    repoData,
+  );
+
   revalidatePath("/dashboard/repos");
-  
+
   return repo;
 }
 
@@ -55,28 +68,30 @@ export async function getConnectedRepositoriesAction() {
   const connectedRepos = await prisma.repository.findMany({
     where: {
       integration: {
-        organizationId
-      }
+        organizationId,
+      },
     },
     orderBy: {
-      updatedAt: 'desc'
-    }
+      updatedAt: "desc",
+    },
   });
 
   // Calculate open findings per repository
-  const reposWithCounts = await Promise.all(connectedRepos.map(async (repo) => {
-    const findingsCount = await prisma.finding.count({
-      where: {
-        pullRequest: { repositoryId: repo.id },
-        status: 'open'
-      }
-    });
-    
-    return {
-      ...repo,
-      _count: { findings: findingsCount }
-    };
-  }));
+  const reposWithCounts = await Promise.all(
+    connectedRepos.map(async (repo) => {
+      const findingsCount = await prisma.finding.count({
+        where: {
+          pullRequest: { repositoryId: repo.id },
+          status: "open",
+        },
+      });
+
+      return {
+        ...repo,
+        _count: { findings: findingsCount },
+      };
+    }),
+  );
 
   return reposWithCounts;
 }

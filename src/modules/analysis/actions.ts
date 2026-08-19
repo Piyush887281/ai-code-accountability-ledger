@@ -18,18 +18,23 @@ export async function updateCriticalityPolicyAction(formData: FormData) {
 
   const membership = memberships[0];
   if (membership.role !== "org_admin") {
-    throw new Error("Forbidden: Only organization admins can update the criticality policy");
+    throw new Error(
+      "Forbidden: Only organization admins can update the criticality policy",
+    );
   }
 
   const keywordsString = formData.get("keywords") as string;
-  
+
   // Parse comma-separated keywords
   const keywords = keywordsString
-    ? keywordsString.split(",").map(k => k.trim()).filter(k => k.length > 0)
+    ? keywordsString
+        .split(",")
+        .map((k) => k.trim())
+        .filter((k) => k.length > 0)
     : [];
 
   await CriticalityService.updateOrgPolicy(membership.organizationId, keywords);
-  
+
   revalidatePath("/dashboard/settings");
 }
 
@@ -41,5 +46,8 @@ export async function getCriticalityPolicyAction() {
   if (memberships.length === 0) return { keywords: [] };
 
   // Just fetch the org policy (null repositoryId)
-  return CriticalityService.getPolicyForRepository(memberships[0].organizationId, "null_repo_fallback");
+  return CriticalityService.getPolicyForRepository(
+    memberships[0].organizationId,
+    "null_repo_fallback",
+  );
 }

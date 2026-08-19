@@ -5,7 +5,10 @@ export class OrganizationRepository {
   /**
    * Creates a new organization.
    */
-  static async create(data: { name: string; slug: string }): Promise<Organization> {
+  static async create(data: {
+    name: string;
+    slug: string;
+  }): Promise<Organization> {
     return prisma.organization.create({
       data,
     });
