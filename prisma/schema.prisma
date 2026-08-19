@@ -16,6 +16,8 @@ model Organization {
   updatedAt DateTime @updatedAt
 
   memberships Membership[]
+  integrations Integration[]
+  repositories Repository[]
 
   @@map("organizations")
 }
@@ -96,4 +98,92 @@ model VerificationToken {
  
   @@unique([identifier, token])
   @@map("verification_tokens")
+}
+
+// --- PHASE-2: Ingestion Models ---
+
+model Integration {
+  id             String       @id @default(uuid())
+  organizationId String
+  provider       String       // e.g., "github"
+  installationId String?      // GitHub App Installation ID if using GitHub Apps
+  accessToken    String?      @db.Text // Encrypted or scoped token if using OAuth
+  status         String       @default("active") // active, revoked, error
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  repositories   Repository[]
+
+  @@unique([organizationId, provider])
+  @@map("integrations")
+}
+
+model Repository {
+  id             String       @id @default(uuid())
+  organizationId String
+  integrationId  String
+  externalId     String       // e.g., GitHub Repo ID
+  name           String       // e.g., "owner/repo"
+  url            String       // e.g., "https://github.com/owner/repo"
+  defaultBranch  String       @default("main")
+  isActive       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  integration    Integration  @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  commits        Commit[]
+  pullRequests   PullRequest[]
+
+  @@unique([integrationId, externalId])
+  @@map("repositories")
+}
+
+model WebhookEvent {
+  id             String       @id @default(uuid())
+  provider       String       // e.g., "github"
+  deliveryId     String       // x-github-delivery header
+  event          String       // x-github-event header (e.g. "push")
+  payload        Json
+  processed      Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+
+  @@unique([provider, deliveryId])
+  @@map("webhook_events")
+}
+
+model Commit {
+  id             String       @id @default(uuid())
+  repositoryId   String
+  sha            String
+  message        String       @db.Text
+  authorName     String
+  authorEmail    String
+  date           DateTime
+  url            String
+  createdAt      DateTime     @default(now())
+
+  repository     Repository   @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@unique([repositoryId, sha])
+  @@index([repositoryId, date])
+  @@map("commits")
+}
+
+model PullRequest {
+  id             String       @id @default(uuid())
+  repositoryId   String
+  externalId     String       // e.g. "123" (PR number)
+  title          String
+  state          String       // open, closed, merged
+  authorName     String
+  url            String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  repository     Repository   @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@unique([repositoryId, externalId])
+  @@map("pull_requests")
 }
