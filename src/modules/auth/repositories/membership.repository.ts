@@ -18,7 +18,9 @@ export class MembershipRepository {
   /**
    * Gets all memberships for a specific user, including the organization details.
    */
-  static async findByUserId(userId: string): Promise<(Membership & { organization: Organization })[]> {
+  static async findByUserId(
+    userId: string,
+  ): Promise<(Membership & { organization: Organization })[]> {
     return prisma.membership.findMany({
       where: { userId },
       include: {
@@ -30,7 +32,9 @@ export class MembershipRepository {
   /**
    * Gets all memberships for a specific organization, including user details.
    */
-  static async findByOrganizationId(organizationId: string): Promise<(Membership & { user: User })[]> {
+  static async findByOrganizationId(
+    organizationId: string,
+  ): Promise<(Membership & { user: User })[]> {
     return prisma.membership.findMany({
       where: { organizationId },
       include: {
@@ -42,7 +46,11 @@ export class MembershipRepository {
   /**
    * Checks if a user has a specific role in an organization.
    */
-  static async checkRole(organizationId: string, userId: string, requiredRole: string): Promise<boolean> {
+  static async checkRole(
+    organizationId: string,
+    userId: string,
+    requiredRole: string,
+  ): Promise<boolean> {
     const membership = await prisma.membership.findUnique({
       where: {
         organizationId_userId: {

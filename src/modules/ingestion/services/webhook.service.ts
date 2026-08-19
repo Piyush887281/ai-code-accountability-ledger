@@ -1,14 +1,19 @@
-import crypto from 'crypto';
+import crypto from "crypto";
 import prisma from "@/lib/db";
 
 export class WebhookService {
   /**
    * Verifies the GitHub HMAC signature.
    */
-  static verifyGitHubSignature(payload: string, signature: string | null): boolean {
+  static verifyGitHubSignature(
+    payload: string,
+    signature: string | null,
+  ): boolean {
     const secret = process.env.GITHUB_WEBHOOK_SECRET;
     if (!secret) {
-      console.warn("GITHUB_WEBHOOK_SECRET is not set, skipping signature verification.");
+      console.warn(
+        "GITHUB_WEBHOOK_SECRET is not set, skipping signature verification.",
+      );
       return true; // For local dev without a secret, though not recommended for production
     }
 
@@ -30,7 +35,7 @@ export class WebhookService {
   static async storeEventIdempotently(
     deliveryId: string,
     event: string,
-    payload: any
+    payload: any,
   ): Promise<boolean> {
     try {
       await prisma.webhookEvent.create({
@@ -45,7 +50,7 @@ export class WebhookService {
       return true;
     } catch (error: any) {
       // Prisma error code for unique constraint violation
-      if (error.code === 'P2002') {
+      if (error.code === "P2002") {
         return false;
       }
       throw error;

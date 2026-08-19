@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  context: { params: Promise<{ repoId: string }> }
+  context: { params: Promise<{ repoId: string }> },
 ) {
   const session = await auth();
   if (!session?.user?.id) {
@@ -56,23 +56,29 @@ export async function GET(
     "AI Authorship Confidence",
     "Status",
     "Created At",
-    "URL"
+    "URL",
   ];
 
   const escapeCsv = (str: string | number | null | undefined) => {
     if (str == null) return "";
     const stringified = String(str);
-    if (stringified.includes(",") || stringified.includes('"') || stringified.includes("\n")) {
+    if (
+      stringified.includes(",") ||
+      stringified.includes('"') ||
+      stringified.includes("\n")
+    ) {
       return `"${stringified.replace(/"/g, '""')}"`;
     }
     return stringified;
   };
 
   const rows = findings.map((f) => {
-    const sourceTitle = f.pullRequest ? `PR #${f.pullRequest.externalId}` : "Unknown";
+    const sourceTitle = f.pullRequest
+      ? `PR #${f.pullRequest.externalId}`
+      : "Unknown";
     const author = f.pullRequest?.authorName || "Unknown";
     const url = f.pullRequest?.url || "";
-    
+
     return [
       f.id,
       sourceTitle,
@@ -82,9 +88,9 @@ export async function GET(
       f.aiAuthorshipConfidence !== null ? f.aiAuthorshipConfidence : "N/A",
       f.status,
       f.createdAt.toISOString(),
-      url
+      url,
     ]
-      .map(val => escapeCsv(val))
+      .map((val) => escapeCsv(val))
       .join(",");
   });
 

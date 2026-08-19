@@ -24,7 +24,7 @@
 
 /* Subtle grid background texture */
 .brandPanel::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background-image:
@@ -36,13 +36,17 @@
 
 /* Accent glow — extremely subtle, anchored top-left */
 .brandPanel::after {
-  content: '';
+  content: "";
   position: absolute;
   top: -120px;
   left: -120px;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(59, 130, 246, 0.06) 0%,
+    transparent 70%
+  );
   pointer-events: none;
 }
 

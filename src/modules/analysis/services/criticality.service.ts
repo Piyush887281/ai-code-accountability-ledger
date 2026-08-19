@@ -6,7 +6,10 @@ export class CriticalityService {
    * Retrieves the criticality policy for a given repository.
    * Falls back to the organization-level policy if no repo-specific policy exists.
    */
-  static async getPolicyForRepository(organizationId: string, repositoryId: string) {
+  static async getPolicyForRepository(
+    organizationId: string,
+    repositoryId: string,
+  ) {
     // Try to get repo-specific policy
     let policy = await prisma.criticalityPolicy.findUnique({
       where: {
@@ -42,26 +45,26 @@ export class CriticalityService {
    * Updates the organization-level criticality policy.
    */
   static async updateOrgPolicy(organizationId: string, keywords: string[]) {
-    // We need to use findFirst to check existence since prisma doesn't support 
+    // We need to use findFirst to check existence since prisma doesn't support
     // upsert with a null field in a unique constraint easily in some versions.
     const existing = await prisma.criticalityPolicy.findFirst({
       where: {
         organizationId,
         repositoryId: null,
-      }
+      },
     });
 
     if (existing) {
       return prisma.criticalityPolicy.update({
         where: { id: existing.id },
-        data: { keywords }
+        data: { keywords },
       });
     } else {
       return prisma.criticalityPolicy.create({
         data: {
           organizationId,
-          keywords
-        }
+          keywords,
+        },
       });
     }
   }
@@ -71,12 +74,15 @@ export class CriticalityService {
    * Note: Requires fetching the PR files from GitHub.
    */
   static async evaluatePullRequest(
-    organizationId: string, 
-    repositoryId: string, 
-    prNumber: string
+    organizationId: string,
+    repositoryId: string,
+    prNumber: string,
   ): Promise<boolean> {
-    const policy = await this.getPolicyForRepository(organizationId, repositoryId);
-    
+    const policy = await this.getPolicyForRepository(
+      organizationId,
+      repositoryId,
+    );
+
     if (!policy.keywords || policy.keywords.length === 0) {
       return false; // No critical paths defined
     }
@@ -84,7 +90,7 @@ export class CriticalityService {
     // Fetch the repository to get the external ID (owner/repo)
     const repo = await prisma.repository.findUnique({
       where: { id: repositoryId },
-      include: { integration: true }
+      include: { integration: true },
     });
 
     if (!repo || !repo.integration.accessToken) {
@@ -101,10 +107,12 @@ export class CriticalityService {
     });
 
     if (!response.ok) {
-      console.error(`Failed to fetch PR files for ${repo.name}#${prNumber}: ${response.statusText}`);
-      // Fallback: If we can't fetch files, assume non-critical for now, 
+      console.error(
+        `Failed to fetch PR files for ${repo.name}#${prNumber}: ${response.statusText}`,
+      );
+      // Fallback: If we can't fetch files, assume non-critical for now,
       // but in a strict compliance system you might fail closed (assume critical).
-      return false; 
+      return false;
     }
 
     const files = await response.json();

@@ -30,8 +30,10 @@ export class BackfillJobService {
       retryLimit: 3,
       retryBackoff: true,
     });
-    
-    console.log(`[Backfill] Enqueued job ${jobId} for repo ${data.owner}/${data.repo}`);
+
+    console.log(
+      `[Backfill] Enqueued job ${jobId} for repo ${data.owner}/${data.repo}`,
+    );
     return jobId;
   }
 
@@ -42,7 +44,9 @@ export class BackfillJobService {
   static async startWorker() {
     await boss.work(BACKFILL_JOB_NAME, async (job: Job<BackfillJobData>) => {
       const data = job.data;
-      console.log(`[Backfill] Processing job ${job.id} for ${data.owner}/${data.repo}`);
+      console.log(
+        `[Backfill] Processing job ${job.id} for ${data.owner}/${data.repo}`,
+      );
 
       try {
         const integration = await prisma.integration.findUnique({
@@ -50,7 +54,9 @@ export class BackfillJobService {
         });
 
         if (!integration || !integration.accessToken) {
-          throw new Error(`Integration ${data.integrationId} not found or missing access token`);
+          throw new Error(
+            `Integration ${data.integrationId} not found or missing access token`,
+          );
         }
 
         const token = integration.accessToken;
@@ -61,7 +67,9 @@ export class BackfillJobService {
         // Fetch PRs
         await this.fetchAndStorePullRequests(data, token);
 
-        console.log(`[Backfill] Completed job ${job.id} for ${data.owner}/${data.repo}`);
+        console.log(
+          `[Backfill] Completed job ${job.id} for ${data.owner}/${data.repo}`,
+        );
       } catch (error) {
         console.error(`[Backfill] Job ${job.id} failed:`, error);
         throw error; // Let pg-boss handle retries
@@ -69,13 +77,16 @@ export class BackfillJobService {
     });
   }
 
-  private static async fetchAndStoreCommits(data: BackfillJobData, token: string) {
+  private static async fetchAndStoreCommits(
+    data: BackfillJobData,
+    token: string,
+  ) {
     let page = 1;
     let hasMore = true;
 
     while (hasMore) {
       const url = `https://api.github.com/repos/${data.owner}/${data.repo}/commits?since=${data.since}&per_page=100&page=${page}`;
-      
+
       const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -85,15 +96,18 @@ export class BackfillJobService {
 
       if (!response.ok) {
         // Simple rate limit handling
-        if (response.status === 403 && response.headers.get('x-ratelimit-remaining') === '0') {
-          const resetTime = response.headers.get('x-ratelimit-reset');
+        if (
+          response.status === 403 &&
+          response.headers.get("x-ratelimit-remaining") === "0"
+        ) {
+          const resetTime = response.headers.get("x-ratelimit-reset");
           throw new Error(`Rate limit exceeded. Reset at ${resetTime}`);
         }
         throw new Error(`Failed to fetch commits: ${response.statusText}`);
       }
 
       const commits = await response.json();
-      
+
       if (commits.length === 0) {
         hasMore = false;
         break;
@@ -106,25 +120,29 @@ export class BackfillJobService {
             repositoryId_sha: {
               repositoryId: data.repositoryId,
               sha: commit.sha,
-            }
+            },
           },
           create: {
             repositoryId: data.repositoryId,
             sha: commit.sha,
             message: commit.commit.message,
-            authorName: commit.commit.author?.name || 'Unknown',
-            authorEmail: commit.commit.author?.email || 'Unknown',
-            date: new Date(commit.commit.author?.date || commit.commit.committer?.date),
+            authorName: commit.commit.author?.name || "Unknown",
+            authorEmail: commit.commit.author?.email || "Unknown",
+            date: new Date(
+              commit.commit.author?.date || commit.commit.committer?.date,
+            ),
             url: commit.html_url,
           },
-          update: {} // No updates needed for immutable commits
+          update: {}, // No updates needed for immutable commits
         });
       }
 
-      console.log(`[Backfill] Stored ${commits.length} commits for ${data.owner}/${data.repo} (Page ${page})`);
-      
+      console.log(
+        `[Backfill] Stored ${commits.length} commits for ${data.owner}/${data.repo} (Page ${page})`,
+      );
+
       // Check pagination links
-      const linkHeader = response.headers.get('link');
+      const linkHeader = response.headers.get("link");
       if (!linkHeader || !linkHeader.includes('rel="next"')) {
         hasMore = false;
       } else {
@@ -133,13 +151,16 @@ export class BackfillJobService {
     }
   }
 
-  private static async fetchAndStorePullRequests(data: BackfillJobData, token: string) {
+  private static async fetchAndStorePullRequests(
+    data: BackfillJobData,
+    token: string,
+  ) {
     let page = 1;
     let hasMore = true;
 
     while (hasMore) {
       const url = `https://api.github.com/repos/${data.owner}/${data.repo}/pulls?state=all&sort=updated&direction=desc&per_page=100&page=${page}`;
-      
+
       const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -152,7 +173,7 @@ export class BackfillJobService {
       }
 
       const prs = await response.json();
-      
+
       if (prs.length === 0) {
         hasMore = false;
         break;
@@ -173,14 +194,14 @@ export class BackfillJobService {
             repositoryId_externalId: {
               repositoryId: data.repositoryId,
               externalId: pr.number.toString(),
-            }
+            },
           },
           create: {
             repositoryId: data.repositoryId,
             externalId: pr.number.toString(),
             title: pr.title,
             state: pr.state,
-            authorName: pr.user?.login || 'Unknown',
+            authorName: pr.user?.login || "Unknown",
             url: pr.html_url,
             createdAt: new Date(pr.created_at),
             updatedAt: new Date(pr.updated_at),
@@ -189,25 +210,33 @@ export class BackfillJobService {
             state: pr.state,
             title: pr.title,
             updatedAt: new Date(pr.updated_at),
-          }
+          },
         });
 
         // Generate a Finding for this PR
         try {
-          const repo = await prisma.repository.findUnique({ where: { id: data.repositoryId } });
+          const repo = await prisma.repository.findUnique({
+            where: { id: data.repositoryId },
+          });
           if (repo) {
-            await FindingService.analyzePullRequest(repo.organizationId, data.repositoryId, pr.number.toString());
+            await FindingService.analyzePullRequest(
+              repo.organizationId,
+              data.repositoryId,
+              pr.number.toString(),
+            );
           }
         } catch (err) {
           console.error(`Failed to generate finding for PR ${pr.number}:`, err);
         }
       }
 
-      console.log(`[Backfill] Processed ${prs.length} PRs for ${data.owner}/${data.repo} (Page ${page})`);
-      
+      console.log(
+        `[Backfill] Processed ${prs.length} PRs for ${data.owner}/${data.repo} (Page ${page})`,
+      );
+
       if (!hasMore) break;
 
-      const linkHeader = response.headers.get('link');
+      const linkHeader = response.headers.get("link");
       if (!linkHeader || !linkHeader.includes('rel="next"')) {
         hasMore = false;
       } else {

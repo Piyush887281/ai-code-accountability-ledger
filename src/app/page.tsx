@@ -7,7 +7,9 @@ export default async function HomePage() {
 
   // Redirect logic for logged-in users
   if (session?.user?.id) {
-    const memberships = await MembershipRepository.findByUserId(session.user.id);
+    const memberships = await MembershipRepository.findByUserId(
+      session.user.id,
+    );
     if (memberships.length === 0) {
       redirect("/onboarding");
     } else {
@@ -24,33 +26,40 @@ export default async function HomePage() {
             AL
           </div>
 
-          <h1 className={styles.brandTitle}>
-            AI-Code Accountability Ledger
-          </h1>
+          <h1 className={styles.brandTitle}>AI-Code Accountability Ledger</h1>
 
           <p className={styles.brandDescription}>
-            Continuous visibility into which code was AI-generated, how deeply it
-            was reviewed, and where unowned business-critical risk is
+            Continuous visibility into which code was AI-generated, how deeply
+            it was reviewed, and where unowned business-critical risk is
             concentrated.
           </p>
 
           <ul className={styles.featureList}>
             <li className={styles.featureItem}>
-              <span className={styles.featureIcon} aria-hidden="true">✓</span>
+              <span className={styles.featureIcon} aria-hidden="true">
+                ✓
+              </span>
               <span className={styles.featureText}>
-                <strong>AI-Detection</strong> — Automatically identify AI-generated code across every pull request
+                <strong>AI-Detection</strong> — Automatically identify
+                AI-generated code across every pull request
               </span>
             </li>
             <li className={styles.featureItem}>
-              <span className={styles.featureIcon} aria-hidden="true">✓</span>
+              <span className={styles.featureIcon} aria-hidden="true">
+                ✓
+              </span>
               <span className={styles.featureText}>
-                <strong>Review Depth</strong> — Measure how thoroughly each change was actually reviewed
+                <strong>Review Depth</strong> — Measure how thoroughly each
+                change was actually reviewed
               </span>
             </li>
             <li className={styles.featureItem}>
-              <span className={styles.featureIcon} aria-hidden="true">✓</span>
+              <span className={styles.featureIcon} aria-hidden="true">
+                ✓
+              </span>
               <span className={styles.featureText}>
-                <strong>Risk Mapping</strong> — Surface unowned critical code before it becomes a liability
+                <strong>Risk Mapping</strong> — Surface unowned critical code
+                before it becomes a liability
               </span>
             </li>
           </ul>
@@ -115,7 +124,16 @@ export default async function HomePage() {
 
                 <p className={styles.permissionsHint}>
                   <span className={styles.lockIcon} aria-hidden="true">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
                       <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                     </svg>
@@ -125,7 +143,8 @@ export default async function HomePage() {
               </div>
 
               <p className={styles.footer}>
-                By continuing, you agree to grant read access to your GitHub repositories for analysis purposes only.
+                By continuing, you agree to grant read access to your GitHub
+                repositories for analysis purposes only.
               </p>
             </>
           )}

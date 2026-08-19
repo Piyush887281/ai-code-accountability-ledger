@@ -8,20 +8,24 @@ export class FindingService {
    * Generates or updates a Finding for a specific Pull Request.
    * Fetches the latest metadata from GitHub to calculate the review depth score.
    */
-  static async analyzePullRequest(organizationId: string, repositoryId: string, prExternalId: string) {
+  static async analyzePullRequest(
+    organizationId: string,
+    repositoryId: string,
+    prExternalId: string,
+  ) {
     // 1. Get the local PR record
     const pr = await prisma.pullRequest.findUnique({
       where: {
         repositoryId_externalId: {
           repositoryId,
           externalId: prExternalId,
-        }
+        },
       },
       include: {
         repository: {
-          include: { integration: true }
-        }
-      }
+          include: { integration: true },
+        },
+      },
     });
 
     if (!pr || !pr.repository.integration.accessToken) {
@@ -41,7 +45,9 @@ export class FindingService {
     });
 
     if (!prResponse.ok) {
-      throw new Error(`Failed to fetch PR metadata from GitHub: ${prResponse.statusText}`);
+      throw new Error(
+        `Failed to fetch PR metadata from GitHub: ${prResponse.statusText}`,
+      );
     }
 
     const prData = await prResponse.json();
@@ -58,17 +64,22 @@ export class FindingService {
     };
 
     // 3. Compute deterministic score
-    const reviewDepthScore = ScoringService.calculateReviewDepthScore(prMetadata);
+    const reviewDepthScore =
+      ScoringService.calculateReviewDepthScore(prMetadata);
 
     // 4. Evaluate criticality
-    const isCritical = await CriticalityService.evaluatePullRequest(organizationId, repositoryId, prExternalId);
+    const isCritical = await CriticalityService.evaluatePullRequest(
+      organizationId,
+      repositoryId,
+      prExternalId,
+    );
 
     // 5. Fetch PR Diff for AI Analysis
     const diffResponse = await fetch(prUrl, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         // Use the v3.diff media type to get the raw diff
-        Accept: "application/vnd.github.v3.diff", 
+        Accept: "application/vnd.github.v3.diff",
       },
     });
 
@@ -76,9 +87,14 @@ export class FindingService {
     if (diffResponse.ok) {
       const diffContent = await diffResponse.text();
       // 6. Call AI Orchestrator Layer
-      aiAuthorshipConfidence = await AiOrchestratorService.evaluateAuthorship(organizationId, diffContent);
+      aiAuthorshipConfidence = await AiOrchestratorService.evaluateAuthorship(
+        organizationId,
+        diffContent,
+      );
     } else {
-      console.warn(`[FindingService] Failed to fetch diff for PR ${prExternalId}, skipping AI classification.`);
+      console.warn(
+        `[FindingService] Failed to fetch diff for PR ${prExternalId}, skipping AI classification.`,
+      );
     }
 
     // 7. Upsert Finding record
@@ -87,14 +103,24 @@ export class FindingService {
         pullRequestId: pr.id,
       },
       update: {
-        status: prData.state === "closed" ? (prData.merged_at ? "resolved" : "ignored") : "open",
+        status:
+          prData.state === "closed"
+            ? prData.merged_at
+              ? "resolved"
+              : "ignored"
+            : "open",
         reviewDepthScore,
         isCritical,
         aiAuthorshipConfidence,
       },
       create: {
         pullRequestId: pr.id,
-        status: prData.state === "closed" ? (prData.merged_at ? "resolved" : "ignored") : "open",
+        status:
+          prData.state === "closed"
+            ? prData.merged_at
+              ? "resolved"
+              : "ignored"
+            : "open",
         reviewDepthScore,
         isCritical,
         aiAuthorshipConfidence,
