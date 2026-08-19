@@ -12,4 +12,4 @@
  *
  * This module is initialized in PHASE-1.4.
  */
-export {};
+export { auth, signIn, signOut, handlers } from "../../../auth";

@@ -1,6 +1,9 @@
 import styles from "./page.module.css";
+import { auth, signIn, signOut } from "@/modules/auth";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session = await auth();
+
   return (
     <main className={styles.main}>
       <div className={styles.container}>
@@ -10,9 +13,33 @@ export default function HomePage() {
           was reviewed, and where unowned business-critical code risk is
           concentrated.
         </p>
-        <div className={styles.status}>
-          <span className={styles.statusDot} />
-          <span>System initializing — authentication setup pending</span>
+
+        <div className={styles.authContainer}>
+          {session?.user ? (
+            <div className={styles.authCard}>
+              <p>Logged in as: {session.user.name ?? session.user.email}</p>
+              <form
+                action={async () => {
+                  "use server";
+                  await signOut();
+                }}
+              >
+                <button type="submit" className={styles.button}>Sign Out</button>
+              </form>
+            </div>
+          ) : (
+            <div className={styles.authCard}>
+              <p>System initializing — authentication setup active.</p>
+              <form
+                action={async () => {
+                  "use server";
+                  await signIn("github");
+                }}
+              >
+                <button type="submit" className={styles.button}>Sign in with GitHub</button>
+              </form>
+            </div>
+          )}
         </div>
       </div>
     </main>
