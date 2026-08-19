@@ -1,8 +1,20 @@
 import styles from "./page.module.css";
-import { auth, signIn, signOut } from "@/modules/auth";
+import { auth, signIn, signOut, MembershipRepository } from "@/modules/auth";
+import { redirect } from "next/navigation";
 
 export default async function HomePage() {
   const session = await auth();
+
+  // Redirect logic for logged-in users
+  if (session?.user?.id) {
+    const memberships = await MembershipRepository.findByUserId(session.user.id);
+    if (memberships.length === 0) {
+      redirect("/onboarding");
+    } else {
+      // We will build the dashboard in Phase 2, but we redirect here for now
+      redirect("/dashboard");
+    }
+  }
 
   return (
     <main className={styles.main}>
