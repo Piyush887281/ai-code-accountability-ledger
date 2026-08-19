@@ -1,95 +1,319 @@
-.main {
+/* ============================================================
+   Sign-In Page — Professional Landing & Authentication
+   ============================================================ */
+
+/* --- Full-page layout --- */
+.page {
   display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
-  padding: var(--space-8);
+  background-color: var(--color-background);
 }
 
-.container {
-  max-width: 36rem;
-  text-align: center;
+/* --- Left Panel: Brand & Value Proposition --- */
+.brandPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 3.5rem;
+  background-color: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
 }
 
-.title {
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  margin-bottom: var(--space-4);
+/* Subtle grid background texture */
+.brandPanel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(250, 250, 250, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250, 250, 250, 0.02) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
 }
 
-.subtitle {
-  color: var(--color-muted);
-  font-size: 1.0625rem;
-  line-height: 1.7;
-  margin-bottom: var(--space-8);
+/* Accent glow — extremely subtle, anchored top-left */
+.brandPanel::after {
+  content: '';
+  position: absolute;
+  top: -120px;
+  left: -120px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+  pointer-events: none;
 }
 
-.status {
+.brandContent {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+}
+
+/* Logo mark */
+.logoMark {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-full);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  font-size: 0.8125rem;
-  color: var(--color-muted);
-}
-
-.statusDot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: var(--radius-full);
-  background-color: var(--color-medium);
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.authContainer {
-  margin-top: 3rem;
-  width: 100%;
-  display: flex;
   justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
-.authCard {
+.brandTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  color: var(--color-foreground);
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.brandDescription {
+  font-size: 1rem;
+  color: var(--color-muted-foreground);
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+}
+
+/* Feature list */
+.featureList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-muted-foreground);
+  line-height: 1.5;
+}
+
+.featureIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--color-primary);
+  font-size: 0.6875rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.featureText strong {
+  color: var(--color-foreground);
+  font-weight: 500;
+}
+
+/* --- Right Panel: Auth Action --- */
+.authPanel {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
-  padding: 2rem;
+  justify-content: center;
+  padding: 4rem 3.5rem;
+  position: relative;
+}
+
+.authWrapper {
+  width: 100%;
+  max-width: 380px;
+}
+
+/* Card */
+.authCard {
+  padding: 2.5rem 2rem;
   border-radius: var(--radius-lg);
-  background-color: var(--surface-100);
-  border: 1px solid var(--border);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
 }
 
-.authCard p {
-  color: var(--text-secondary);
-  font-size: 1rem;
+.authHeading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
 }
 
-.button {
-  background-color: var(--primary);
-  color: white;
-  border: none;
+.authSubtext {
+  font-size: 0.875rem;
+  color: var(--color-muted-foreground);
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+/* Divider line above button */
+.authDivider {
+  height: 1px;
+  background-color: var(--color-border);
+  margin-bottom: 1.5rem;
+}
+
+/* GitHub Button */
+.githubButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+  box-shadow: var(--shadow-sm);
 }
 
-.button:hover {
-  background-color: var(--primary-hover);
+.githubButton:hover {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-md);
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
+.githubButton:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.githubButton:active {
+  background-color: var(--color-surface-active);
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.githubButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.githubIcon {
+  display: flex;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+}
+
+/* Permissions hint below button */
+.permissionsHint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+}
+
+.lockIcon {
+  display: flex;
+  opacity: 0.5;
+}
+
+/* Footer text */
+.footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  opacity: 0.6;
+  line-height: 1.5;
+}
+
+/* --- Logged-in State --- */
+.loggedInCard {
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+
+.loggedInLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted-foreground);
+  margin-bottom: 0.375rem;
+}
+
+.loggedInName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+  margin-bottom: 1.5rem;
+}
+
+.signOutButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: var(--color-muted-foreground);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.signOutButton:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-foreground);
+  border-color: var(--color-border-hover);
+}
+
+/* --- Responsive: Collapse to single column on smaller screens --- */
+@media (max-width: 900px) {
+  .page {
+    flex-direction: column;
   }
-  50% {
-    opacity: .5;
+
+  .brandPanel {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    padding: 2.5rem 2rem;
+  }
+
+  .brandContent {
+    max-width: 100%;
+  }
+
+  .featureList {
+    display: none; /* Hide feature list on narrow viewports */
+  }
+
+  .authPanel {
+    padding: 2.5rem 2rem;
   }
 }

@@ -11,20 +11,15 @@ export default async function RepositoriesPage() {
   }
 
   return (
-    <main className={styles.main}>
-      <div className={styles.container}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h1 className={styles.title} style={{ fontSize: '2rem' }}>Connect Repository</h1>
-          <a href="/dashboard" style={{ textDecoration: 'none', color: 'var(--text-secondary)' }}>
-            &larr; Back to Dashboard
-          </a>
-        </div>
-        <p className={styles.subtitle} style={{ marginBottom: '2rem' }}>
+    <div>
+      <div style={{ marginBottom: 'var(--space-8)' }}>
+        <h1 className="text-h1" style={{ marginBottom: 'var(--space-1)' }}>Repositories</h1>
+        <p className="text-muted">
           Select a GitHub repository to connect to your organization. The system will ingest historical commits and pull requests.
         </p>
-
-        <RepositoryList />
       </div>
-    </main>
+
+      <RepositoryList />
+    </div>
   );
 }

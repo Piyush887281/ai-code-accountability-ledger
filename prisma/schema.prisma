@@ -16,8 +16,10 @@ model Organization {
   updatedAt DateTime @updatedAt
 
   memberships Membership[]
-  integrations Integration[]
-  repositories Repository[]
+  integrations       Integration[]
+  repositories       Repository[]
+  criticalityPolicies CriticalityPolicy[]
+  aiUsages           AiUsage[]
 
   @@map("organizations")
 }
@@ -132,9 +134,10 @@ model Repository {
   updatedAt      DateTime     @updatedAt
 
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  integration    Integration  @relation(fields: [integrationId], references: [id], onDelete: Cascade)
-  commits        Commit[]
-  pullRequests   PullRequest[]
+  integration         Integration         @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  commits             Commit[]
+  pullRequests        PullRequest[]
+  criticalityPolicies CriticalityPolicy[]
 
   @@unique([integrationId, externalId])
   @@map("repositories")
@@ -183,7 +186,58 @@ model PullRequest {
   updatedAt      DateTime     @updatedAt
 
   repository     Repository   @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  findings       Finding[]
 
   @@unique([repositoryId, externalId])
   @@map("pull_requests")
+}
+
+// --- PHASE-3: Analysis Models ---
+
+model CriticalityPolicy {
+  id             String       @id @default(uuid())
+  organizationId String
+  repositoryId   String?      // Optional: If null, applies to all repos in the org
+  keywords       String[]     // Array of path keywords (e.g., ["auth", "billing", "crypto"])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  repository     Repository?  @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  // Ensure only one global policy per org (where repositoryId is null)
+  @@unique([organizationId, repositoryId])
+  @@map("criticality_policies")
+}
+
+model Finding {
+  id                      String       @id @default(uuid())
+  pullRequestId           String       @unique // 1:1 relationship with PR for now
+  status                  String       @default("open") // open, resolved, ignored
+  reviewDepthScore        Int          @default(0)
+  isCritical              Boolean      @default(false)
+  aiAuthorshipConfidence  Float?       // Null until Phase 4
+  createdAt               DateTime     @default(now())
+  updatedAt               DateTime     @updatedAt
+
+  pullRequest             PullRequest  @relation(fields: [pullRequestId], references: [id], onDelete: Cascade)
+
+  @@map("findings")
+}
+
+// --- PHASE-4: AI Orchestration Models ---
+
+model AiUsage {
+  id             String       @id @default(uuid())
+  organizationId String
+  month          String       // format: YYYY-MM
+  callCount      Int          @default(0)
+  callLimit      Int          @default(1000)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, month])
+  @@map("ai_usages")
 }

@@ -1,6 +1,7 @@
 import boss from "@/lib/queue";
 import prisma from "@/lib/db";
 import { Job } from "pg-boss";
+import { FindingService } from "@/modules/analysis/services/finding.service";
 
 export const BACKFILL_JOB_NAME = "github-repo-backfill";
 
@@ -167,7 +168,7 @@ export class BackfillJobService {
           break;
         }
 
-        await prisma.pullRequest.upsert({
+        const prRecord = await prisma.pullRequest.upsert({
           where: {
             repositoryId_externalId: {
               repositoryId: data.repositoryId,
@@ -190,6 +191,16 @@ export class BackfillJobService {
             updatedAt: new Date(pr.updated_at),
           }
         });
+
+        // Generate a Finding for this PR
+        try {
+          const repo = await prisma.repository.findUnique({ where: { id: data.repositoryId } });
+          if (repo) {
+            await FindingService.analyzePullRequest(repo.organizationId, data.repositoryId, pr.number.toString());
+          }
+        } catch (err) {
+          console.error(`Failed to generate finding for PR ${pr.number}:`, err);
+        }
       }
 
       console.log(`[Backfill] Processed ${prs.length} PRs for ${data.owner}/${data.repo} (Page ${page})`);

@@ -58,9 +58,13 @@ export class GitHubService {
 
   /**
    * Connects a specific repository to an organization.
+   * Now accepts userId so we can copy the OAuth token into the Integration record.
    */
-  static async connectRepository(organizationId: string, repoData: any) {
-    // Ensure an integration record exists for this org
+  static async connectRepository(organizationId: string, userId: string, repoData: any) {
+    // Fetch the user's GitHub OAuth token so downstream services can use it
+    const accessToken = await this.getUserAccessToken(userId);
+
+    // Ensure an integration record exists for this org, storing the access token
     const integration = await prisma.integration.upsert({
       where: {
         organizationId_provider: {
@@ -72,8 +76,12 @@ export class GitHubService {
         organizationId,
         provider: "github",
         status: "active",
+        accessToken,
       },
-      update: {},
+      update: {
+        // Always refresh the token in case it changed since last connect
+        accessToken,
+      },
     });
 
     // Create the repository record
@@ -116,3 +124,4 @@ export class GitHubService {
     return repository;
   }
 }
+

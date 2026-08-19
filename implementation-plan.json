@@ -102,12 +102,23 @@
       "dependencies": {
         "prerequisite_phases": [],
         "prerequisite_tasks": [],
-        "external_dependencies": ["Access to 5-10 candidate companies/repositories for manual analysis, with permission"],
-        "required_credentials_access": ["Human developer's existing professional network/outreach channels; no cloud infrastructure required yet"]
+        "external_dependencies": [
+          "Access to 5-10 candidate companies/repositories for manual analysis, with permission"
+        ],
+        "required_credentials_access": [
+          "Human developer's existing professional network/outreach channels; no cloud infrastructure required yet"
+        ]
       },
       "scope": {
-        "included": ["Manual/concierge-style repo analysis using existing open-source tools (e.g., git log/blame inspection, manual diff review) performed by hand, not by a built product", "Outreach and interviews with candidate buyers", "Documentation of findings"],
-        "excluded": ["Any production code, infrastructure, or automated pipeline", "Any AI API integration"],
+        "included": [
+          "Manual/concierge-style repo analysis using existing open-source tools (e.g., git log/blame inspection, manual diff review) performed by hand, not by a built product",
+          "Outreach and interviews with candidate buyers",
+          "Documentation of findings"
+        ],
+        "excluded": [
+          "Any production code, infrastructure, or automated pipeline",
+          "Any AI API integration"
+        ],
         "affected_systems": [],
         "affected_users": ["Human developer only; no end users yet"]
       },
@@ -125,14 +136,20 @@
               "detailed_description": "Human developer compiles a list using existing professional network, LinkedIn/X posts about AI-code-risk anxiety (as identified as a live topic in the earlier research), and any warm introductions available. Split the list roughly evenly between the two candidate buyer personas to allow later comparison.",
               "dependencies": [],
               "inputs": ["Human developer's network and public social posts"],
-              "expected_outputs": ["A written list of 15-20 named candidates with contact method and persona hypothesis tagged per contact"],
+              "expected_outputs": [
+                "A written list of 15-20 named candidates with contact method and persona hypothesis tagged per contact"
+              ],
               "affected_components": [],
               "implementation_notes": "Not an engineering task; owned by human developer.",
               "validation": "List reviewed for persona balance and realistic reachability before outreach begins.",
-              "failure_cases": ["Fewer than 10 reachable candidates found -> escalate to broaden search criteria before proceeding"],
+              "failure_cases": [
+                "Fewer than 10 reachable candidates found -> escalate to broaden search criteria before proceeding"
+              ],
               "security_considerations": "None at this stage.",
               "testing_requirements": "Not applicable.",
-              "definition_of_done": ["List of >=15 candidates exists with contact method and persona tag for each"],
+              "definition_of_done": [
+                "List of >=15 candidates exists with contact method and persona tag for each"
+              ],
               "priority": "blocking"
             },
             {
@@ -142,21 +159,33 @@
               "detailed_description": "Outreach message references the specific, evidenced problem (AI-authored, under-reviewed, business-critical code) rather than a generic pitch, per the earlier research framing.",
               "dependencies": ["T-0.1.1"],
               "inputs": ["Candidate list"],
-              "expected_outputs": ["At least 8 scheduled conversations or agreed manual-review engagements"],
+              "expected_outputs": [
+                "At least 8 scheduled conversations or agreed manual-review engagements"
+              ],
               "affected_components": [],
               "implementation_notes": "Human developer task.",
               "validation": "Count of scheduled engagements tracked against the 8-10 target.",
-              "failure_cases": ["Low response rate (<20%) is itself a signal worth recording, not just a logistics failure - feed into PHASE-0 conclusion"],
+              "failure_cases": [
+                "Low response rate (<20%) is itself a signal worth recording, not just a logistics failure - feed into PHASE-0 conclusion"
+              ],
               "security_considerations": "None.",
               "testing_requirements": "Not applicable.",
-              "definition_of_done": [">=8 scheduled conversations or manual-review engagements confirmed"],
+              "definition_of_done": [
+                ">=8 scheduled conversations or manual-review engagements confirmed"
+              ],
               "priority": "blocking"
             }
           ],
-          "expected_artifacts": ["Candidate list", "Outreach message template", "Response tracking sheet"],
+          "expected_artifacts": [
+            "Candidate list",
+            "Outreach message template",
+            "Response tracking sheet"
+          ],
           "testing_strategy": "not_applicable",
           "security_checks": "not_applicable",
-          "validation_steps": ["Response rate and engagement count reviewed against thresholds"],
+          "validation_steps": [
+            "Response rate and engagement count reviewed against thresholds"
+          ],
           "completion_criteria": [">=8 confirmed conversations/engagements"],
           "rollback_considerations": "not_applicable - no system changes made in this sub-phase",
           "risks": ["Low response rate delays the entire project start"]
@@ -174,14 +203,20 @@
               "detailed_description": "Uses git blame/log and manual review to approximate what the future Analysis Engine (blueprint Section 8) would compute: rough AI-authorship signal (where determinable, e.g. commit messages, tool metadata if visible), review time proxy (PR open-to-merge time, comment count), and a manually-applied criticality judgment (auth/payments/data-access paths).",
               "dependencies": ["T-0.1.2"],
               "inputs": ["Candidate's repository (with permission)"],
-              "expected_outputs": ["One-page finding summary per candidate, following the blueprint's Layer 1/2 simple-explanation format"],
+              "expected_outputs": [
+                "One-page finding summary per candidate, following the blueprint's Layer 1/2 simple-explanation format"
+              ],
               "affected_components": [],
               "implementation_notes": "This directly tests whether the core value proposition is producible and credible even manually - a precursor validation of the single largest technical risk identified in the blueprint (AI-authorship signal reliability).",
               "validation": "Each summary reviewed by the human developer for internal credibility before being shown to the candidate.",
-              "failure_cases": ["Manual AI-authorship signal is too unreliable/ambiguous even by hand -> this is a critical finding that must feed directly into PHASE-2 risk planning, not be discarded"],
+              "failure_cases": [
+                "Manual AI-authorship signal is too unreliable/ambiguous even by hand -> this is a critical finding that must feed directly into PHASE-2 risk planning, not be discarded"
+              ],
               "security_considerations": "Handle each candidate's code with the same care implied by the blueprint's data-handling principles even though no product exists yet - do not retain repository contents beyond what is needed for the one-page summary, and do not share one candidate's data with another.",
               "testing_requirements": "Not applicable - manual process.",
-              "definition_of_done": ["One-page summary produced and internally reviewed for each engaged candidate"],
+              "definition_of_done": [
+                "One-page summary produced and internally reviewed for each engaged candidate"
+              ],
               "priority": "blocking"
             },
             {
@@ -191,24 +226,41 @@
               "detailed_description": "Track explicitly: did they ask 'can you run this on our whole codebase', did they ask about pricing, did they offer to pay for a pilot, or was the reaction lukewarm.",
               "dependencies": ["T-0.2.1"],
               "inputs": ["Finding summaries", "Candidate conversations"],
-              "expected_outputs": ["A structured log of reaction per candidate, tagged strong/weak, with persona noted"],
+              "expected_outputs": [
+                "A structured log of reaction per candidate, tagged strong/weak, with persona noted"
+              ],
               "affected_components": [],
               "implementation_notes": "This is the core data PHASE-0 exists to produce.",
               "validation": "Reviewed against the phase's completion_criteria.",
-              "failure_cases": ["Reaction is weak across the board -> triggers the phase's explicit 'do not proceed as currently scoped' contingency"],
+              "failure_cases": [
+                "Reaction is weak across the board -> triggers the phase's explicit 'do not proceed as currently scoped' contingency"
+              ],
               "security_considerations": "Confirm no NDA or confidentiality issue prevents sharing findings back to the candidate in the format chosen.",
               "testing_requirements": "Not applicable.",
-              "definition_of_done": ["Reaction log complete for all engaged candidates"],
+              "definition_of_done": [
+                "Reaction log complete for all engaged candidates"
+              ],
               "priority": "blocking"
             }
           ],
-          "expected_artifacts": ["Per-candidate finding summaries", "Reaction log"],
+          "expected_artifacts": [
+            "Per-candidate finding summaries",
+            "Reaction log"
+          ],
           "testing_strategy": "not_applicable",
-          "security_checks": ["Manual data-handling discipline confirmed (no cross-candidate data mixing, no unnecessary retention)"],
-          "validation_steps": ["Reaction log reviewed against strong/weak reaction criteria from the blueprint's customer-reaction test"],
-          "completion_criteria": ["Reaction log complete for at least 8 candidates"],
+          "security_checks": [
+            "Manual data-handling discipline confirmed (no cross-candidate data mixing, no unnecessary retention)"
+          ],
+          "validation_steps": [
+            "Reaction log reviewed against strong/weak reaction criteria from the blueprint's customer-reaction test"
+          ],
+          "completion_criteria": [
+            "Reaction log complete for at least 8 candidates"
+          ],
           "rollback_considerations": "not_applicable",
-          "risks": ["Manual analysis proves the authorship signal is unreliable even by hand - this is a valid and important outcome, not a failure of the phase itself"]
+          "risks": [
+            "Manual analysis proves the authorship signal is unreliable even by hand - this is a valid and important outcome, not a failure of the phase itself"
+          ]
         },
         {
           "sub_phase_id": "PHASE-0.3",
@@ -223,14 +275,20 @@
               "detailed_description": "This decision record becomes part of the frozen specification and directly resolves pre-flight items PF-2 (buyer persona) for downstream phases.",
               "dependencies": ["T-0.2.2"],
               "inputs": ["Reaction log"],
-              "expected_outputs": ["Decision record: proceed / pivot / stop, with buyer persona resolved if proceeding"],
+              "expected_outputs": [
+                "Decision record: proceed / pivot / stop, with buyer persona resolved if proceeding"
+              ],
               "affected_components": [],
               "implementation_notes": "Owned jointly - human developer decides, planning layer documents the decision's implications for the rest of this plan.",
               "validation": "Decision record reviewed against the >=3-strong-reaction threshold defined in the phase objective.",
-              "failure_cases": ["Fewer than 3 strong reactions -> default outcome is 'do not proceed to Phase 1 as currently scoped'; escalate to human developer for an explicit override decision if they choose to proceed anyway, recorded as an accepted risk"],
+              "failure_cases": [
+                "Fewer than 3 strong reactions -> default outcome is 'do not proceed to Phase 1 as currently scoped'; escalate to human developer for an explicit override decision if they choose to proceed anyway, recorded as an accepted risk"
+              ],
               "security_considerations": "Not applicable.",
               "testing_requirements": "Not applicable.",
-              "definition_of_done": ["Written decision record exists and is approved by the human developer"],
+              "definition_of_done": [
+                "Written decision record exists and is approved by the human developer"
+              ],
               "priority": "blocking"
             }
           ],
@@ -238,9 +296,13 @@
           "testing_strategy": "not_applicable",
           "security_checks": "not_applicable",
           "validation_steps": ["Human developer sign-off"],
-          "completion_criteria": ["Signed decision record with explicit proceed/pivot/stop outcome"],
+          "completion_criteria": [
+            "Signed decision record with explicit proceed/pivot/stop outcome"
+          ],
           "rollback_considerations": "not_applicable",
-          "risks": ["Proceeding despite weak signal purely due to sunk-cost or enthusiasm - flagged explicitly for the human developer to consciously accept or reject"]
+          "risks": [
+            "Proceeding despite weak signal purely due to sunk-cost or enthusiasm - flagged explicitly for the human developer to consciously accept or reject"
+          ]
         }
       ],
       "phase_validation": {
@@ -264,14 +326,39 @@
       "expected_outcome": "A running, empty-but-structured application: a developer can sign in via GitHub OAuth and see an empty dashboard, with CI passing on a trivial change.",
       "dependencies": {
         "prerequisite_phases": ["PHASE-0"],
-        "prerequisite_tasks": ["PF-1 (backend language) resolved", "PF-2 (AI provider) does not block this phase but should be scheduled for resolution before PHASE-2 begins"],
-        "external_dependencies": ["GitHub OAuth App registration", "Hosting provider account", "Managed Postgres provider account"],
-        "required_credentials_access": ["Human developer must create: GitHub OAuth App client ID/secret, hosting provider account, database provider account, and provide these as environment secrets - never committed to source"]
+        "prerequisite_tasks": [
+          "PF-1 (backend language) resolved",
+          "PF-2 (AI provider) does not block this phase but should be scheduled for resolution before PHASE-2 begins"
+        ],
+        "external_dependencies": [
+          "GitHub OAuth App registration",
+          "Hosting provider account",
+          "Managed Postgres provider account"
+        ],
+        "required_credentials_access": [
+          "Human developer must create: GitHub OAuth App client ID/secret, hosting provider account, database provider account, and provide these as environment secrets - never committed to source"
+        ]
       },
       "scope": {
-        "included": ["Monorepo or single-repo initialization", "Backend language/framework decision execution", "Basic CI pipeline (lint, type check, test run)", "Database connection and initial migration tooling setup", "Auth scaffold (GitHub OAuth login only, no authorization logic yet)", "Empty frontend shell with routing"],
-        "excluded": ["Any repo-analysis logic", "Any AI integration", "Any billing", "Any notification integration"],
-        "affected_systems": ["New repository", "New database instance (dev)", "New hosting project (dev)"],
+        "included": [
+          "Monorepo or single-repo initialization",
+          "Backend language/framework decision execution",
+          "Basic CI pipeline (lint, type check, test run)",
+          "Database connection and initial migration tooling setup",
+          "Auth scaffold (GitHub OAuth login only, no authorization logic yet)",
+          "Empty frontend shell with routing"
+        ],
+        "excluded": [
+          "Any repo-analysis logic",
+          "Any AI integration",
+          "Any billing",
+          "Any notification integration"
+        ],
+        "affected_systems": [
+          "New repository",
+          "New database instance (dev)",
+          "New hosting project (dev)"
+        ],
         "affected_users": ["Human developer and IDE only; no end users"]
       },
       "sub_phases": [
@@ -288,14 +375,20 @@
               "detailed_description": "This is a human decision, not an IDE or planning-layer decision, because the blueprint explicitly deferred it to team capability, which only the human developer can assess.",
               "dependencies": [],
               "inputs": ["Team's actual skill profile"],
-              "expected_outputs": ["Recorded decision: language and primary framework"],
+              "expected_outputs": [
+                "Recorded decision: language and primary framework"
+              ],
               "affected_components": [],
               "implementation_notes": "Recorded in this plan's cross_phase_requirements once made.",
               "validation": "Decision recorded and referenced by all subsequent backend tasks.",
-              "failure_cases": ["Decision left unmade -> blocks all of PHASE-1.2 onward"],
+              "failure_cases": [
+                "Decision left unmade -> blocks all of PHASE-1.2 onward"
+              ],
               "security_considerations": "Not applicable.",
               "testing_requirements": "Not applicable.",
-              "definition_of_done": ["Backend language/framework decision recorded"],
+              "definition_of_done": [
+                "Backend language/framework decision recorded"
+              ],
               "priority": "blocking"
             },
             {
@@ -304,25 +397,44 @@
               "objective": "Create the repository with a logical module layout matching the blueprint's service boundaries.",
               "detailed_description": "Create top-level structure separating: frontend application, backend application (with internal modules for Auth, Ingestion, Analysis Engine, AI Orchestration, Reporting, Notification per blueprint Section 8), shared type/schema definitions, and infrastructure/config. Exact directory names are logical proposals for the IDE to confirm against actual framework conventions (e.g., Next.js app-router conventions), not fixed in advance.",
               "dependencies": ["T-1.1.1"],
-              "inputs": ["Chosen framework's standard project scaffolding tools"],
-              "expected_outputs": ["Initialized repository with committed scaffold, README stub, .gitignore, license/ownership file as appropriate"],
+              "inputs": [
+                "Chosen framework's standard project scaffolding tools"
+              ],
+              "expected_outputs": [
+                "Initialized repository with committed scaffold, README stub, .gitignore, license/ownership file as appropriate"
+              ],
               "affected_components": ["Whole repository (initial commit)"],
               "implementation_notes": "IDE must use the framework's official scaffolding tool rather than hand-rolling boilerplate, and must report the exact tool/version used.",
               "validation": "Repository builds and runs locally with a placeholder homepage.",
-              "failure_cases": ["Scaffold tool requires a dependency/version not available in the environment -> report and request human decision, do not silently substitute"],
-              "security_considerations": ["Ensure .gitignore excludes any env/secret file patterns from the very first commit"],
+              "failure_cases": [
+                "Scaffold tool requires a dependency/version not available in the environment -> report and request human decision, do not silently substitute"
+              ],
+              "security_considerations": [
+                "Ensure .gitignore excludes any env/secret file patterns from the very first commit"
+              ],
               "testing_requirements": "Verify the app starts locally without error.",
-              "definition_of_done": ["Repository exists, builds, and runs a placeholder page locally"],
+              "definition_of_done": [
+                "Repository exists, builds, and runs a placeholder page locally"
+              ],
               "priority": "blocking"
             }
           ],
-          "expected_artifacts": ["Initialized git repository", "Recorded backend decision"],
+          "expected_artifacts": [
+            "Initialized git repository",
+            "Recorded backend decision"
+          ],
           "testing_strategy": "Local build/run smoke test only at this stage.",
-          "security_checks": [".gitignore correctly excludes secrets/env files"],
-          "validation_steps": ["Local run confirmed by IDE and spot-checked by human developer"],
+          "security_checks": [
+            ".gitignore correctly excludes secrets/env files"
+          ],
+          "validation_steps": [
+            "Local run confirmed by IDE and spot-checked by human developer"
+          ],
           "completion_criteria": ["Repository builds and runs locally"],
           "rollback_considerations": "Trivial - no persistent data yet; repository can be re-initialized if structure proves wrong.",
-          "risks": ["Wrong initial structure causes rework later if service boundaries are not respected - mitigated by explicit module layout matching blueprint Section 8"]
+          "risks": [
+            "Wrong initial structure causes rework later if service boundaries are not respected - mitigated by explicit module layout matching blueprint Section 8"
+          ]
         },
         {
           "sub_phase_id": "PHASE-1.2",
@@ -337,11 +449,15 @@
               "detailed_description": "Configure the standard linter/formatter for the chosen language (per blueprint Section 12's CI/CD mention), applied to both frontend and backend.",
               "dependencies": ["T-1.1.2"],
               "inputs": ["Chosen framework's recommended lint/format tooling"],
-              "expected_outputs": ["Lint/format configuration committed, passing on the current scaffold"],
+              "expected_outputs": [
+                "Lint/format configuration committed, passing on the current scaffold"
+              ],
               "affected_components": ["Repository root config"],
               "implementation_notes": "Use widely-adopted, framework-recommended tools rather than an unusual/unverified choice.",
               "validation": "Lint command runs and passes on current codebase.",
-              "failure_cases": ["Conflicting rules between frontend/backend tooling -> resolve by scoping configs per package/directory"],
+              "failure_cases": [
+                "Conflicting rules between frontend/backend tooling -> resolve by scoping configs per package/directory"
+              ],
               "security_considerations": "Not applicable.",
               "testing_requirements": "Lint passes with zero errors on initial scaffold.",
               "definition_of_done": ["Lint/format commands exist and pass"],
@@ -354,24 +470,35 @@
               "detailed_description": "Use GitHub Actions per blueprint Section 12. Pipeline must fail the build if any check fails - no soft-fail/allow-failure steps for these core checks.",
               "dependencies": ["T-1.2.1"],
               "inputs": ["GitHub Actions"],
-              "expected_outputs": ["CI workflow file committed and passing on the current scaffold"],
+              "expected_outputs": [
+                "CI workflow file committed and passing on the current scaffold"
+              ],
               "affected_components": ["Repository CI configuration"],
               "implementation_notes": "IDE must verify the CI run actually executes and passes remotely, not just locally, before marking this done.",
               "validation": "A test PR/commit triggers CI and shows a passing status.",
-              "failure_cases": ["CI environment lacks a dependency present locally -> must be fixed in CI config, not worked around by skipping the check"],
+              "failure_cases": [
+                "CI environment lacks a dependency present locally -> must be fixed in CI config, not worked around by skipping the check"
+              ],
               "security_considerations": "CI secrets (if any needed even at this stage) must use the CI provider's secret store, never committed values.",
               "testing_requirements": "At least one placeholder test exists and runs in CI.",
-              "definition_of_done": ["CI pipeline exists, runs on push, and passes"],
+              "definition_of_done": [
+                "CI pipeline exists, runs on push, and passes"
+              ],
               "priority": "high"
             }
           ],
-          "expected_artifacts": ["CI workflow configuration", "Lint/format configuration"],
+          "expected_artifacts": [
+            "CI workflow configuration",
+            "Lint/format configuration"
+          ],
           "testing_strategy": "CI itself is the validation mechanism from this point forward.",
           "security_checks": ["No secrets present in CI configuration files"],
           "validation_steps": ["Observed passing CI run on a real commit"],
           "completion_criteria": ["CI passes on current scaffold"],
           "rollback_considerations": "Low risk - CI config changes are easily reverted.",
-          "risks": ["Overly strict CI rules block early development velocity - mitigated by keeping the baseline minimal (lint, type-check, placeholder test) and expanding as real code is added"]
+          "risks": [
+            "Overly strict CI rules block early development velocity - mitigated by keeping the baseline minimal (lint, type-check, placeholder test) and expanding as real code is added"
+          ]
         },
         {
           "sub_phase_id": "PHASE-1.3",
@@ -386,14 +513,20 @@
               "detailed_description": "Per blueprint Section 12, using Supabase or an equivalent managed provider. Human developer must verify current free-tier terms at the time of signup rather than trusting the blueprint's prior description, per global_rules.",
               "dependencies": [],
               "inputs": [],
-              "expected_outputs": ["Database connection string, stored as a secret, not committed"],
+              "expected_outputs": [
+                "Database connection string, stored as a secret, not committed"
+              ],
               "affected_components": [],
               "implementation_notes": "Human developer task; IDE only consumes the resulting connection string via environment variable.",
               "validation": "Connection verified from a local script.",
-              "failure_cases": ["Free-tier limits are lower than expected -> record as a cost_control note, not a blocker for dev"],
+              "failure_cases": [
+                "Free-tier limits are lower than expected -> record as a cost_control note, not a blocker for dev"
+              ],
               "security_considerations": "Connection string treated as a secret from the moment it exists.",
               "testing_requirements": "Not applicable.",
-              "definition_of_done": ["Working dev database connection available as an environment variable"],
+              "definition_of_done": [
+                "Working dev database connection available as an environment variable"
+              ],
               "priority": "blocking"
             },
             {
@@ -403,24 +536,40 @@
               "detailed_description": "Use the migration tool native to the chosen backend framework/ORM. No manual schema edits permitted from this point forward, per global_rules.",
               "dependencies": ["T-1.3.1"],
               "inputs": ["Chosen ORM/migration tool"],
-              "expected_outputs": ["Migration tooling configured, with an initial empty migration applied successfully"],
+              "expected_outputs": [
+                "Migration tooling configured, with an initial empty migration applied successfully"
+              ],
               "affected_components": ["Database schema (empty baseline)"],
               "implementation_notes": "IDE must confirm migrations run cleanly against a fresh database, and that a rollback command exists and is tested.",
               "validation": "Migration up and down both verified to work on a disposable test database.",
-              "failure_cases": ["Migration tool incompatible with chosen ORM -> flag and request human decision on ORM choice"],
+              "failure_cases": [
+                "Migration tool incompatible with chosen ORM -> flag and request human decision on ORM choice"
+              ],
               "security_considerations": "Row-Level Security (RLS) capability confirmed available on the chosen Postgres provider, since it is required by blueprint Section 10, even though RLS policies themselves are not written until PHASE-4.",
               "testing_requirements": "Migration up/down tested against a disposable database instance.",
-              "definition_of_done": ["Migration tooling functional, initial empty migration applied and reversible"],
+              "definition_of_done": [
+                "Migration tooling functional, initial empty migration applied and reversible"
+              ],
               "priority": "blocking"
             }
           ],
-          "expected_artifacts": ["Configured migration tooling", "Verified dev database connection"],
+          "expected_artifacts": [
+            "Configured migration tooling",
+            "Verified dev database connection"
+          ],
           "testing_strategy": "Migration up/down tested on a disposable database.",
-          "security_checks": ["Connection string never committed to source", "RLS capability confirmed available on chosen provider"],
+          "security_checks": [
+            "Connection string never committed to source",
+            "RLS capability confirmed available on chosen provider"
+          ],
           "validation_steps": ["Successful migration up and down observed"],
-          "completion_criteria": ["Migration tooling works, RLS capability confirmed"],
+          "completion_criteria": [
+            "Migration tooling works, RLS capability confirmed"
+          ],
           "rollback_considerations": "Migrations are the rollback mechanism itself; verified bidirectionally before proceeding.",
-          "risks": ["Chosen Postgres provider does not support RLS as assumed in the blueprint -> this would be a genuine architectural conflict requiring escalation to the human developer, not a silent workaround"]
+          "risks": [
+            "Chosen Postgres provider does not support RLS as assumed in the blueprint -> this would be a genuine architectural conflict requiring escalation to the human developer, not a silent workaround"
+          ]
         },
         {
           "sub_phase_id": "PHASE-1.4",
@@ -435,14 +584,20 @@
               "detailed_description": "Per blueprint Section 17, GitHub OAuth is the primary authentication mechanism since repository access is required regardless.",
               "dependencies": [],
               "inputs": [],
-              "expected_outputs": ["OAuth client ID and secret, stored as environment secrets"],
+              "expected_outputs": [
+                "OAuth client ID and secret, stored as environment secrets"
+              ],
               "affected_components": [],
               "implementation_notes": "Human developer task.",
               "validation": "Credentials present as environment variables, never committed.",
-              "failure_cases": ["Callback URL misconfigured for dev environment -> update OAuth App settings, not application code, to fix"],
+              "failure_cases": [
+                "Callback URL misconfigured for dev environment -> update OAuth App settings, not application code, to fix"
+              ],
               "security_considerations": "Client secret treated as a secret from creation.",
               "testing_requirements": "Not applicable.",
-              "definition_of_done": ["OAuth App credentials available as environment variables"],
+              "definition_of_done": [
+                "OAuth App credentials available as environment variables"
+              ],
               "priority": "blocking"
             },
             {
@@ -452,24 +607,57 @@
               "detailed_description": "On successful OAuth callback: verify the OAuth state parameter to prevent CSRF on the auth flow, create or update a User record, issue a short-lived session token stored in an httpOnly secure cookie, and redirect to the (currently empty) dashboard. No Organization/Membership logic yet - that is PHASE-1.5.",
               "dependencies": ["T-1.4.1", "T-1.3.2"],
               "inputs": ["OAuth callback payload from GitHub"],
-              "expected_outputs": ["Working login flow: unauthenticated user is redirected to GitHub, returns authenticated, session cookie set"],
-              "affected_components": ["Auth module (backend)", "Login page (frontend)", "User table (new migration)"],
+              "expected_outputs": [
+                "Working login flow: unauthenticated user is redirected to GitHub, returns authenticated, session cookie set"
+              ],
+              "affected_components": [
+                "Auth module (backend)",
+                "Login page (frontend)",
+                "User table (new migration)"
+              ],
               "implementation_notes": "Session tokens must be short-lived with a refresh mechanism per blueprint Section 10 - do not implement long-lived tokens as a shortcut.",
               "validation": "Manual login flow tested end-to-end in dev; session cookie inspected to confirm httpOnly and secure flags.",
-              "failure_cases": ["OAuth state mismatch -> reject and show a clear error, never silently proceed", "GitHub API unavailable -> show a clear error state, per blueprint Section 14 failure-handling pattern applied even at this early stage"],
-              "security_considerations": ["OAuth CSRF protection via state parameter is mandatory, not optional", "Session cookie must be httpOnly, secure, and appropriately scoped", "No long-lived unrefreshed tokens"],
-              "testing_requirements": ["Integration test covering successful login", "Integration test covering OAuth state-mismatch rejection", "Integration test covering GitHub API failure during callback"],
-              "definition_of_done": ["Login flow works end-to-end in dev with passing tests for success and both failure cases listed"],
+              "failure_cases": [
+                "OAuth state mismatch -> reject and show a clear error, never silently proceed",
+                "GitHub API unavailable -> show a clear error state, per blueprint Section 14 failure-handling pattern applied even at this early stage"
+              ],
+              "security_considerations": [
+                "OAuth CSRF protection via state parameter is mandatory, not optional",
+                "Session cookie must be httpOnly, secure, and appropriately scoped",
+                "No long-lived unrefreshed tokens"
+              ],
+              "testing_requirements": [
+                "Integration test covering successful login",
+                "Integration test covering OAuth state-mismatch rejection",
+                "Integration test covering GitHub API failure during callback"
+              ],
+              "definition_of_done": [
+                "Login flow works end-to-end in dev with passing tests for success and both failure cases listed"
+              ],
               "priority": "blocking"
             }
           ],
-          "expected_artifacts": ["Working OAuth login flow", "User table migration"],
+          "expected_artifacts": [
+            "Working OAuth login flow",
+            "User table migration"
+          ],
           "testing_strategy": "Integration tests for success and named failure cases; manual verification of cookie security flags.",
-          "security_checks": ["OAuth CSRF protection verified", "Session cookie flags verified", "No secrets committed"],
-          "validation_steps": ["Manual end-to-end login test in dev environment", "Automated tests passing in CI"],
-          "completion_criteria": ["A real GitHub account can log in and reach an authenticated (empty) dashboard route"],
+          "security_checks": [
+            "OAuth CSRF protection verified",
+            "Session cookie flags verified",
+            "No secrets committed"
+          ],
+          "validation_steps": [
+            "Manual end-to-end login test in dev environment",
+            "Automated tests passing in CI"
+          ],
+          "completion_criteria": [
+            "A real GitHub account can log in and reach an authenticated (empty) dashboard route"
+          ],
           "rollback_considerations": "Auth is foundational; any later change to the auth model requires an explicit migration and is treated as a higher-risk change in later phases.",
-          "risks": ["Session/cookie misconfiguration is a common and serious mistake - explicitly tested rather than assumed correct"]
+          "risks": [
+            "Session/cookie misconfiguration is a common and serious mistake - explicitly tested rather than assumed correct"
+          ]
         },
         {
           "sub_phase_id": "PHASE-1.5",
@@ -484,24 +672,53 @@
               "detailed_description": "On first login, if the user has no Organization, prompt creation of one (single-organization-per-signup default for V1; the blueprint does not specify multi-org support as a V1 requirement, so this is treated as out of scope unless later flagged otherwise).",
               "dependencies": ["T-1.4.2"],
               "inputs": [],
-              "expected_outputs": ["Organization and Membership tables via migration", "First-login organization-creation flow"],
-              "affected_components": ["Database schema", "Auth module", "Onboarding page (frontend, minimal)"],
+              "expected_outputs": [
+                "Organization and Membership tables via migration",
+                "First-login organization-creation flow"
+              ],
+              "affected_components": [
+                "Database schema",
+                "Auth module",
+                "Onboarding page (frontend, minimal)"
+              ],
               "implementation_notes": "Role enum values at minimum: org_admin, team_lead, developer, read_only, matching blueprint Section 2 personas A-F mapped to concrete roles.",
               "validation": "New user login creates an Organization and Membership record correctly; existing user login does not duplicate.",
-              "failure_cases": ["Race condition on simultaneous first-login organization creation -> must be handled with a database-level uniqueness constraint, not application-only logic"],
-              "security_considerations": ["Organization ID becomes the tenant boundary referenced by every future RLS policy - correctness here is foundational to Section 10's entire tenant-isolation model"],
-              "testing_requirements": ["Unit test for role enum constraints", "Integration test for first-login organization creation", "Integration test for the race-condition case"],
-              "definition_of_done": ["Organization/Membership schema exists, first-login flow works, race condition test passes"],
+              "failure_cases": [
+                "Race condition on simultaneous first-login organization creation -> must be handled with a database-level uniqueness constraint, not application-only logic"
+              ],
+              "security_considerations": [
+                "Organization ID becomes the tenant boundary referenced by every future RLS policy - correctness here is foundational to Section 10's entire tenant-isolation model"
+              ],
+              "testing_requirements": [
+                "Unit test for role enum constraints",
+                "Integration test for first-login organization creation",
+                "Integration test for the race-condition case"
+              ],
+              "definition_of_done": [
+                "Organization/Membership schema exists, first-login flow works, race condition test passes"
+              ],
               "priority": "blocking"
             }
           ],
-          "expected_artifacts": ["Organization/Membership schema and migration", "Minimal onboarding page"],
+          "expected_artifacts": [
+            "Organization/Membership schema and migration",
+            "Minimal onboarding page"
+          ],
           "testing_strategy": "Unit and integration tests as listed in T-1.5.1.",
-          "security_checks": ["Organization ID confirmed as the consistent tenant-scoping key going forward"],
-          "validation_steps": ["Tests passing in CI", "Manual verification of first-login flow"],
-          "completion_criteria": ["A logged-in user has exactly one Organization and Membership record with a valid role"],
+          "security_checks": [
+            "Organization ID confirmed as the consistent tenant-scoping key going forward"
+          ],
+          "validation_steps": [
+            "Tests passing in CI",
+            "Manual verification of first-login flow"
+          ],
+          "completion_criteria": [
+            "A logged-in user has exactly one Organization and Membership record with a valid role"
+          ],
           "rollback_considerations": "Schema is new and additive; low risk at this stage since no dependent product data exists yet.",
-          "risks": ["Getting the tenant model wrong here compounds into every later phase - deliberately reviewed carefully before proceeding, per global_rules on RLS verification"]
+          "risks": [
+            "Getting the tenant model wrong here compounds into every later phase - deliberately reviewed carefully before proceeding, per global_rules on RLS verification"
+          ]
         }
       ],
       "phase_validation": {
@@ -528,14 +745,38 @@
       "dependencies": {
         "prerequisite_phases": ["PHASE-1"],
         "prerequisite_tasks": [],
-        "external_dependencies": ["GitHub API access via the OAuth token already obtained in PHASE-1", "A real test repository with realistic history for validation"],
-        "required_credentials_access": ["GitHub App or OAuth scope sufficient for repo read + webhook management - human developer must confirm exact scopes against current GitHub documentation, this is not assumed"]
+        "external_dependencies": [
+          "GitHub API access via the OAuth token already obtained in PHASE-1",
+          "A real test repository with realistic history for validation"
+        ],
+        "required_credentials_access": [
+          "GitHub App or OAuth scope sufficient for repo read + webhook management - human developer must confirm exact scopes against current GitHub documentation, this is not assumed"
+        ]
       },
       "scope": {
-        "included": ["Repository connection flow", "Repo, Commit, PullRequest entities and migrations", "Webhook receiver with signature verification", "Bounded-lookback backfill job", "Background job queue setup (Postgres-backed, per blueprint Section 8)", "Raw data display in a minimal repo view"],
-        "excluded": ["AI-authorship classification", "Review-depth scoring", "Criticality tagging", "Any Finding entity - that begins in PHASE-3"],
-        "affected_systems": ["Database (new tables)", "New Ingestion module", "New background job infrastructure"],
-        "affected_users": ["Org Admin (connects repo)", "any Member (views raw ingested data)"]
+        "included": [
+          "Repository connection flow",
+          "Repo, Commit, PullRequest entities and migrations",
+          "Webhook receiver with signature verification",
+          "Bounded-lookback backfill job",
+          "Background job queue setup (Postgres-backed, per blueprint Section 8)",
+          "Raw data display in a minimal repo view"
+        ],
+        "excluded": [
+          "AI-authorship classification",
+          "Review-depth scoring",
+          "Criticality tagging",
+          "Any Finding entity - that begins in PHASE-3"
+        ],
+        "affected_systems": [
+          "Database (new tables)",
+          "New Ingestion module",
+          "New background job infrastructure"
+        ],
+        "affected_users": [
+          "Org Admin (connects repo)",
+          "any Member (views raw ingested data)"
+        ]
       },
       "sub_phases": [
         {
@@ -555,10 +796,14 @@
               "affected_components": ["OAuth configuration"],
               "implementation_notes": "IDE must fetch/verify current documentation rather than relying on training data, and report the source checked.",
               "validation": "Scopes tested against a real repository connection in dev.",
-              "failure_cases": ["Required scope differs from what PHASE-1's OAuth App was registered with -> requires human developer to update the OAuth App configuration"],
+              "failure_cases": [
+                "Required scope differs from what PHASE-1's OAuth App was registered with -> requires human developer to update the OAuth App configuration"
+              ],
               "security_considerations": "Request the minimum necessary scope, not broad/unnecessary access, per least-privilege principle.",
               "testing_requirements": "Not applicable - documentation/config verification task.",
-              "definition_of_done": ["Confirmed scope list documented and OAuth App configured accordingly"],
+              "definition_of_done": [
+                "Confirmed scope list documented and OAuth App configured accordingly"
+              ],
               "priority": "blocking"
             },
             {
@@ -567,25 +812,60 @@
               "objective": "Let the Org Admin see a list of repos accessible to their GitHub account and select one or more to connect.",
               "detailed_description": "Store the connection as a Repository record scoped to the Organization; store integration credentials reference per blueprint Section 16's Integration entity, pointing to a secrets store, not storing raw tokens in the Repository table directly.",
               "dependencies": ["T-2.1.1"],
-              "inputs": ["GitHub API repo list response for the authenticated user"],
-              "expected_outputs": ["Repository entity created on connection", "Repository visible in a minimal repo list UI"],
-              "affected_components": ["Ingestion module", "Repository table (new migration)", "Integration table (new migration)", "Repo connection UI"],
+              "inputs": [
+                "GitHub API repo list response for the authenticated user"
+              ],
+              "expected_outputs": [
+                "Repository entity created on connection",
+                "Repository visible in a minimal repo list UI"
+              ],
+              "affected_components": [
+                "Ingestion module",
+                "Repository table (new migration)",
+                "Integration table (new migration)",
+                "Repo connection UI"
+              ],
               "implementation_notes": "Must respect GitHub API rate limits per blueprint Section 8 - implement basic backoff even at this stage rather than deferring it.",
               "validation": "Connecting a real test repository succeeds and is visible in the UI.",
-              "failure_cases": ["User has no accessible repos -> clear empty state, not an error", "GitHub API rate-limited during list fetch -> graceful retry/backoff, visible loading state"],
-              "security_considerations": ["Repository access strictly scoped to the connecting Organization (tenant isolation)", "Integration credentials never exposed to the frontend"],
-              "testing_requirements": ["Integration test for successful connection", "Integration test for empty-repo-list case", "Integration test for rate-limit handling"],
-              "definition_of_done": ["A real repository can be connected end-to-end and appears correctly scoped to its Organization"],
+              "failure_cases": [
+                "User has no accessible repos -> clear empty state, not an error",
+                "GitHub API rate-limited during list fetch -> graceful retry/backoff, visible loading state"
+              ],
+              "security_considerations": [
+                "Repository access strictly scoped to the connecting Organization (tenant isolation)",
+                "Integration credentials never exposed to the frontend"
+              ],
+              "testing_requirements": [
+                "Integration test for successful connection",
+                "Integration test for empty-repo-list case",
+                "Integration test for rate-limit handling"
+              ],
+              "definition_of_done": [
+                "A real repository can be connected end-to-end and appears correctly scoped to its Organization"
+              ],
               "priority": "blocking"
             }
           ],
-          "expected_artifacts": ["Repository/Integration schema", "Repo connection UI"],
+          "expected_artifacts": [
+            "Repository/Integration schema",
+            "Repo connection UI"
+          ],
           "testing_strategy": "Integration tests for connection success, empty state, and rate-limit handling.",
-          "security_checks": ["Tenant scoping of Repository records verified", "Credentials never exposed client-side"],
-          "validation_steps": ["Manual connection of a real test repo", "CI tests passing"],
-          "completion_criteria": ["Repository connection flow works end-to-end for a real repo"],
+          "security_checks": [
+            "Tenant scoping of Repository records verified",
+            "Credentials never exposed client-side"
+          ],
+          "validation_steps": [
+            "Manual connection of a real test repo",
+            "CI tests passing"
+          ],
+          "completion_criteria": [
+            "Repository connection flow works end-to-end for a real repo"
+          ],
           "rollback_considerations": "Disconnecting a repo must be a supported, tested action before this sub-phase is considered fully done in later hardening, but a bare disconnect capability should exist even now to avoid orphaned test data.",
-          "risks": ["GitHub API scope/rate-limit specifics differ from documentation at build time - mitigated by verifying live rather than assuming"]
+          "risks": [
+            "GitHub API scope/rate-limit specifics differ from documentation at build time - mitigated by verifying live rather than assuming"
+          ]
         },
         {
           "sub_phase_id": "PHASE-2.2",
@@ -600,14 +880,27 @@
               "detailed_description": "Endpoint is unauthenticated by user session (webhooks are server-to-server) but must verify the GitHub webhook secret signature on every request before processing.",
               "dependencies": ["T-2.1.2"],
               "inputs": ["GitHub webhook payload and signature header"],
-              "expected_outputs": ["Verified events stored/queued for processing; invalid signatures rejected with logging"],
+              "expected_outputs": [
+                "Verified events stored/queued for processing; invalid signatures rejected with logging"
+              ],
               "affected_components": ["Ingestion module webhook route"],
               "implementation_notes": "Webhook secret stored via the secrets mechanism established in PHASE-1, never hardcoded.",
               "validation": "Test with both a validly signed and an intentionally invalid payload; invalid must be rejected.",
-              "failure_cases": ["Missing signature header -> reject", "Signature mismatch -> reject and log as a security event per blueprint Section 21"],
-              "security_considerations": ["This is the primary external-facing security boundary from GitHub into the system - must be tested adversarially, not just happy-path"],
-              "testing_requirements": ["Test valid signature accepted", "Test invalid/missing signature rejected", "Test replay of the same delivery ID is handled idempotently (ties into T-2.2.2)"],
-              "definition_of_done": ["Webhook endpoint verified secure against invalid/missing signatures with passing tests"],
+              "failure_cases": [
+                "Missing signature header -> reject",
+                "Signature mismatch -> reject and log as a security event per blueprint Section 21"
+              ],
+              "security_considerations": [
+                "This is the primary external-facing security boundary from GitHub into the system - must be tested adversarially, not just happy-path"
+              ],
+              "testing_requirements": [
+                "Test valid signature accepted",
+                "Test invalid/missing signature rejected",
+                "Test replay of the same delivery ID is handled idempotently (ties into T-2.2.2)"
+              ],
+              "definition_of_done": [
+                "Webhook endpoint verified secure against invalid/missing signatures with passing tests"
+              ],
               "priority": "blocking"
             },
             {
@@ -617,24 +910,37 @@
               "detailed_description": "Use GitHub's delivery ID as an idempotency key per blueprint Section 14's explicit failure-handling requirement for duplicate requests.",
               "dependencies": ["T-2.2.1"],
               "inputs": ["Webhook delivery ID"],
-              "expected_outputs": ["Duplicate deliveries recognized and skipped without side effects"],
+              "expected_outputs": [
+                "Duplicate deliveries recognized and skipped without side effects"
+              ],
               "affected_components": ["Ingestion module"],
               "implementation_notes": "Store processed delivery IDs with a uniqueness constraint at the database level, not just in-memory.",
               "validation": "Sending the same payload/delivery ID twice results in only one processed effect.",
-              "failure_cases": ["Delivery ID collision across different repos (should not happen per GitHub's design, but verify) -> scope idempotency key by repo/org as well if needed"],
+              "failure_cases": [
+                "Delivery ID collision across different repos (should not happen per GitHub's design, but verify) -> scope idempotency key by repo/org as well if needed"
+              ],
               "security_considerations": "Not applicable beyond what T-2.2.1 covers.",
-              "testing_requirements": ["Test duplicate delivery is a no-op on the second attempt"],
+              "testing_requirements": [
+                "Test duplicate delivery is a no-op on the second attempt"
+              ],
               "definition_of_done": ["Duplicate webhook delivery test passes"],
               "priority": "high"
             }
           ],
           "expected_artifacts": ["Secured, idempotent webhook endpoint"],
           "testing_strategy": "Adversarial security tests (invalid signature) plus idempotency tests.",
-          "security_checks": ["HMAC signature verification confirmed", "Invalid/missing signature rejected and logged"],
+          "security_checks": [
+            "HMAC signature verification confirmed",
+            "Invalid/missing signature rejected and logged"
+          ],
           "validation_steps": ["All listed tests passing in CI"],
-          "completion_criteria": ["Webhook endpoint secure and idempotent, verified by tests"],
+          "completion_criteria": [
+            "Webhook endpoint secure and idempotent, verified by tests"
+          ],
           "rollback_considerations": "Low risk - stateless endpoint logic, easily reverted.",
-          "risks": ["An unverified webhook endpoint would be a critical, exploitable vulnerability - explicitly why this sub-phase exists as its own gated unit rather than being bundled loosely into ingestion"]
+          "risks": [
+            "An unverified webhook endpoint would be a critical, exploitable vulnerability - explicitly why this sub-phase exists as its own gated unit rather than being bundled loosely into ingestion"
+          ]
         },
         {
           "sub_phase_id": "PHASE-2.3",
@@ -649,14 +955,24 @@
               "detailed_description": "Use a Postgres-backed job queue library appropriate to the chosen backend language, confirmed compatible at implementation time.",
               "dependencies": [],
               "inputs": [],
-              "expected_outputs": ["Working job queue capable of enqueueing, processing, and retrying a job"],
+              "expected_outputs": [
+                "Working job queue capable of enqueueing, processing, and retrying a job"
+              ],
               "affected_components": ["New job-queue module"],
               "implementation_notes": "IDE must verify current compatibility/maintenance status of the chosen library before adopting it, not assume it from training data.",
               "validation": "A trivial test job enqueues, processes, and completes correctly, including a forced-failure retry test.",
-              "failure_cases": ["Library incompatible with chosen ORM/DB version -> flag and request human decision on alternative"],
+              "failure_cases": [
+                "Library incompatible with chosen ORM/DB version -> flag and request human decision on alternative"
+              ],
               "security_considerations": "Not applicable at this stage.",
-              "testing_requirements": ["Test job success path", "Test job retry on failure", "Test job progress tracking"],
-              "definition_of_done": ["Job queue functional with passing tests for success, retry, and progress tracking"],
+              "testing_requirements": [
+                "Test job success path",
+                "Test job retry on failure",
+                "Test job progress tracking"
+              ],
+              "definition_of_done": [
+                "Job queue functional with passing tests for success, retry, and progress tracking"
+              ],
               "priority": "blocking"
             },
             {
@@ -665,25 +981,53 @@
               "objective": "On repository connection, ingest a configurable, bounded window of historical commit/PR data (blueprint suggests 6-12 months as a default, configurable) as a resumable background job.",
               "detailed_description": "Job must be chunked (per-page or per-batch of commits) and resumable if interrupted, per blueprint Section 14's explicit 'partial processing' failure case. Progress must be visible to the user, per blueprint Section 3's loading-state requirement, not a silent spinner.",
               "dependencies": ["T-2.3.1", "T-2.2.2"],
-              "inputs": ["Connected Repository record", "GitHub API commit/PR history"],
-              "expected_outputs": ["Commit and PullRequest records populated for the connected repo, with visible progress during backfill"],
-              "affected_components": ["Commit and PullRequest tables (new migrations)", "Ingestion module", "Repo view UI (progress display)"],
+              "inputs": [
+                "Connected Repository record",
+                "GitHub API commit/PR history"
+              ],
+              "expected_outputs": [
+                "Commit and PullRequest records populated for the connected repo, with visible progress during backfill"
+              ],
+              "affected_components": [
+                "Commit and PullRequest tables (new migrations)",
+                "Ingestion module",
+                "Repo view UI (progress display)"
+              ],
               "implementation_notes": "Respect GitHub API rate limits with real backoff, not a fixed sleep - verify current rate-limit response headers/behavior against live GitHub API documentation.",
               "validation": "Backfill of a real test repository completes correctly; interrupting and resuming the job does not duplicate or lose data.",
-              "failure_cases": ["Very large repository causes excessive backfill time -> chunking and progress visibility are the mitigation, not a hard timeout that silently fails", "Rate limit hit mid-backfill -> job pauses and resumes automatically, visible to the user as 'processing, resuming shortly' not an error"],
+              "failure_cases": [
+                "Very large repository causes excessive backfill time -> chunking and progress visibility are the mitigation, not a hard timeout that silently fails",
+                "Rate limit hit mid-backfill -> job pauses and resumes automatically, visible to the user as 'processing, resuming shortly' not an error"
+              ],
               "security_considerations": "Ingested commit/PR metadata is scoped strictly to the connecting Organization; no cross-tenant leakage possible given the Organization-scoped Repository foreign key established in PHASE-1.5/PHASE-2.1.",
-              "testing_requirements": ["Integration test for full backfill completion on a small test repo", "Integration test for interrupt-and-resume", "Integration test for rate-limit-triggered pause/resume"],
-              "definition_of_done": ["Backfill works end-to-end on a real repository, is resumable, and shows real progress in the UI"],
+              "testing_requirements": [
+                "Integration test for full backfill completion on a small test repo",
+                "Integration test for interrupt-and-resume",
+                "Integration test for rate-limit-triggered pause/resume"
+              ],
+              "definition_of_done": [
+                "Backfill works end-to-end on a real repository, is resumable, and shows real progress in the UI"
+              ],
               "priority": "blocking"
             }
           ],
-          "expected_artifacts": ["Working job queue", "Commit/PullRequest schema and populated data from a real backfill", "Progress-visible backfill UI"],
+          "expected_artifacts": [
+            "Working job queue",
+            "Commit/PullRequest schema and populated data from a real backfill",
+            "Progress-visible backfill UI"
+          ],
           "testing_strategy": "Integration tests covering completion, interruption/resume, and rate-limit handling.",
           "security_checks": ["Tenant scoping of ingested data verified"],
-          "validation_steps": ["Real backfill run against a test repository observed end-to-end"],
-          "completion_criteria": ["A real repository's bounded history is fully and correctly ingested, resumably"],
+          "validation_steps": [
+            "Real backfill run against a test repository observed end-to-end"
+          ],
+          "completion_criteria": [
+            "A real repository's bounded history is fully and correctly ingested, resumably"
+          ],
           "rollback_considerations": "Backfill can be safely re-run; idempotency at the data level (unique constraint on commit SHA per repo) prevents duplication on re-run.",
-          "risks": ["This sub-phase directly tests infrastructure that PHASE-2's entire value depends on - treated as high-scrutiny, not routine"]
+          "risks": [
+            "This sub-phase directly tests infrastructure that PHASE-2's entire value depends on - treated as high-scrutiny, not routine"
+          ]
         },
         {
           "sub_phase_id": "PHASE-2.4",
@@ -698,24 +1042,41 @@
               "detailed_description": "This is intentionally minimal - a list of ingested commits/PRs with basic metadata (author, timestamp, review time if available). No progressive-disclosure Finding UI yet; that begins in PHASE-4.",
               "dependencies": ["T-2.3.2"],
               "inputs": ["Ingested Commit/PullRequest data"],
-              "expected_outputs": ["A working repo detail page listing ingested data"],
+              "expected_outputs": [
+                "A working repo detail page listing ingested data"
+              ],
               "affected_components": ["Repo detail page (frontend)"],
               "implementation_notes": "Follow the loading/empty/error state requirements from blueprint Section 3 even at this minimal stage, since this establishes the pattern for later, more complex pages.",
               "validation": "Manual review confirms the displayed data matches what is actually in the database for a real connected repo.",
-              "failure_cases": ["No data yet (backfill in progress) -> correct loading/progress state, not an empty-looking blank page"],
+              "failure_cases": [
+                "No data yet (backfill in progress) -> correct loading/progress state, not an empty-looking blank page"
+              ],
               "security_considerations": "Page only shows data for repos the current user's Organization has access to - verified, not assumed.",
-              "testing_requirements": ["Integration test confirming a user cannot view another Organization's repo data (tenant isolation adversarial test, per global_rules)"],
-              "definition_of_done": ["Repo detail page correctly and securely displays ingested data"],
+              "testing_requirements": [
+                "Integration test confirming a user cannot view another Organization's repo data (tenant isolation adversarial test, per global_rules)"
+              ],
+              "definition_of_done": [
+                "Repo detail page correctly and securely displays ingested data"
+              ],
               "priority": "high"
             }
           ],
           "expected_artifacts": ["Minimal repo detail page"],
           "testing_strategy": "Manual verification plus an explicit adversarial tenant-isolation test.",
-          "security_checks": ["Tenant isolation adversarial test passing - this is the first mandatory instance of the global_rules requirement"],
-          "validation_steps": ["Manual review against real data", "Adversarial test passing in CI"],
-          "completion_criteria": ["Repo detail page accurately and securely reflects ingested data"],
+          "security_checks": [
+            "Tenant isolation adversarial test passing - this is the first mandatory instance of the global_rules requirement"
+          ],
+          "validation_steps": [
+            "Manual review against real data",
+            "Adversarial test passing in CI"
+          ],
+          "completion_criteria": [
+            "Repo detail page accurately and securely reflects ingested data"
+          ],
           "rollback_considerations": "Low risk, UI-only.",
-          "risks": ["This is the first point where a real tenant-isolation bug could be caught or missed - treated with the seriousness global_rules assigns it"]
+          "risks": [
+            "This is the first point where a real tenant-isolation bug could be caught or missed - treated with the seriousness global_rules assigns it"
+          ]
         }
       ],
       "phase_validation": {
@@ -745,10 +1106,23 @@
         "required_credentials_access": []
       },
       "scope": {
-        "included": ["Finding entity and migration", "Review-depth scoring logic (deterministic)", "Criticality policy configuration and tagging logic (deterministic)", "CriticalityPolicy entity and migration", "Basic policy configuration UI"],
-        "excluded": ["AI-authorship classification (PHASE-4)", "Comprehension checks (PHASE-6)", "Full progressive-disclosure Finding UI (PHASE-5)"],
+        "included": [
+          "Finding entity and migration",
+          "Review-depth scoring logic (deterministic)",
+          "Criticality policy configuration and tagging logic (deterministic)",
+          "CriticalityPolicy entity and migration",
+          "Basic policy configuration UI"
+        ],
+        "excluded": [
+          "AI-authorship classification (PHASE-4)",
+          "Comprehension checks (PHASE-6)",
+          "Full progressive-disclosure Finding UI (PHASE-5)"
+        ],
         "affected_systems": ["Database (new tables)", "Analysis Engine module"],
-        "affected_users": ["Org Admin (configures policy)", "any Member (Findings exist but full UI is PHASE-5, so this phase's UI is minimal/internal-facing)"]
+        "affected_users": [
+          "Org Admin (configures policy)",
+          "any Member (Findings exist but full UI is PHASE-5, so this phase's UI is minimal/internal-facing)"
+        ]
       },
       "sub_phases": [
         {
@@ -763,25 +1137,51 @@
               "objective": "Store org- or repo-level path/keyword rules (e.g., paths containing 'auth', 'payment', 'billing') with sensible pre-filled defaults per blueprint Section 3's onboarding wizard requirement.",
               "detailed_description": "Defaults should be a reasonable starting point but must be explicitly editable - do not hardcode them as unchangeable, since the blueprint Section 24 critical unknowns flags that real default rules should come from Phase 0 customer input, not be invented internally. Use whatever was learned in PHASE-0 if applicable; otherwise use clearly-labeled placeholder defaults pending real customer validation.",
               "dependencies": [],
-              "inputs": ["PHASE-0 findings if available, otherwise a documented placeholder default set"],
-              "expected_outputs": ["CriticalityPolicy table and CRUD API", "Basic policy configuration UI"],
-              "affected_components": ["CriticalityPolicy table (new migration)", "Analysis Engine module", "Settings/Policy page (frontend)"],
+              "inputs": [
+                "PHASE-0 findings if available, otherwise a documented placeholder default set"
+              ],
+              "expected_outputs": [
+                "CriticalityPolicy table and CRUD API",
+                "Basic policy configuration UI"
+              ],
+              "affected_components": [
+                "CriticalityPolicy table (new migration)",
+                "Analysis Engine module",
+                "Settings/Policy page (frontend)"
+              ],
               "implementation_notes": "Policy rules should support both org-wide defaults and repo-level overrides, per blueprint Section 3's settings page description.",
               "validation": "Creating, editing, and deleting a policy rule works and is correctly scoped to the Organization.",
-              "failure_cases": ["Conflicting org-level and repo-level rules -> repo-level explicitly overrides org-level, documented behavior, not undefined"],
+              "failure_cases": [
+                "Conflicting org-level and repo-level rules -> repo-level explicitly overrides org-level, documented behavior, not undefined"
+              ],
               "security_considerations": "Only Org Admin role can modify policy, per the RBAC roles established in PHASE-1.5 - authorization check required, not just UI-level hiding of the control.",
-              "testing_requirements": ["Unit test for rule matching logic", "Integration test for CRUD operations with role-based authorization enforcement", "Test that a non-admin role cannot modify policy"],
-              "definition_of_done": ["Policy CRUD works, correctly scoped and authorized"],
+              "testing_requirements": [
+                "Unit test for rule matching logic",
+                "Integration test for CRUD operations with role-based authorization enforcement",
+                "Test that a non-admin role cannot modify policy"
+              ],
+              "definition_of_done": [
+                "Policy CRUD works, correctly scoped and authorized"
+              ],
               "priority": "blocking"
             }
           ],
-          "expected_artifacts": ["CriticalityPolicy schema and CRUD", "Minimal policy configuration UI"],
+          "expected_artifacts": [
+            "CriticalityPolicy schema and CRUD",
+            "Minimal policy configuration UI"
+          ],
           "testing_strategy": "Unit tests for matching logic; integration tests for CRUD and authorization.",
-          "security_checks": ["Role-based authorization enforced server-side, not just hidden client-side"],
+          "security_checks": [
+            "Role-based authorization enforced server-side, not just hidden client-side"
+          ],
           "validation_steps": ["Tests passing in CI"],
-          "completion_criteria": ["Org Admin can configure criticality rules; non-admins cannot"],
+          "completion_criteria": [
+            "Org Admin can configure criticality rules; non-admins cannot"
+          ],
           "rollback_considerations": "Low risk, additive schema.",
-          "risks": ["Placeholder default rules may be poorly calibrated - explicitly flagged as needing real customer input, not treated as final"]
+          "risks": [
+            "Placeholder default rules may be poorly calibrated - explicitly flagged as needing real customer input, not treated as final"
+          ]
         },
         {
           "sub_phase_id": "PHASE-3.2",
@@ -796,14 +1196,22 @@
               "detailed_description": "This must be explicitly documented in the product (per blueprint Section 15) as a proxy, not a certainty - the scoring function itself should be simple, explainable, and versioned so it can be tuned later without ambiguity about what changed.",
               "dependencies": [],
               "inputs": ["PullRequest metadata already ingested in PHASE-2"],
-              "expected_outputs": ["A documented, versioned scoring function producing a review-depth value per PR"],
+              "expected_outputs": [
+                "A documented, versioned scoring function producing a review-depth value per PR"
+              ],
               "affected_components": ["Analysis Engine module"],
               "implementation_notes": "Keep the scoring function pure/deterministic and unit-testable in isolation from the database.",
               "validation": "Unit tests cover a range of realistic PR metadata inputs and expected score outputs.",
-              "failure_cases": ["Missing metadata (e.g., no reviewer recorded) -> defined fallback behavior, not a crash"],
+              "failure_cases": [
+                "Missing metadata (e.g., no reviewer recorded) -> defined fallback behavior, not a crash"
+              ],
               "security_considerations": "Not applicable - pure computation on already-ingested, tenant-scoped data.",
-              "testing_requirements": ["Unit tests covering normal, missing-data, and edge-case PR metadata"],
-              "definition_of_done": ["Scoring function implemented, versioned, and unit-tested"],
+              "testing_requirements": [
+                "Unit tests covering normal, missing-data, and edge-case PR metadata"
+              ],
+              "definition_of_done": [
+                "Scoring function implemented, versioned, and unit-tested"
+              ],
               "priority": "blocking"
             },
             {
@@ -813,24 +1221,48 @@
               "detailed_description": "A Finding is created or updated (not duplicated) per PR, referencing the PR and carrying status (open by default), review-depth score, and criticality tag. AI-authorship-confidence field exists in the schema now but remains null/unset until PHASE-4.",
               "dependencies": ["T-3.2.1", "T-3.1.1"],
               "inputs": ["Scored PR data", "Applicable CriticalityPolicy"],
-              "expected_outputs": ["Finding records correctly created for all ingested PRs, including the backfilled history"],
-              "affected_components": ["Finding table (new migration)", "Analysis Engine module", "Ingestion module (trigger point on new webhook events)"],
+              "expected_outputs": [
+                "Finding records correctly created for all ingested PRs, including the backfilled history"
+              ],
+              "affected_components": [
+                "Finding table (new migration)",
+                "Analysis Engine module",
+                "Ingestion module (trigger point on new webhook events)"
+              ],
               "implementation_notes": "Must handle the existing backfilled PR data from PHASE-2 as well as new incoming PRs via webhook - both paths converge on the same Finding-generation logic, not duplicated code paths.",
               "validation": "Findings correctly generated for both a backfilled repo and a newly-arriving webhook PR event, with correct tenant scoping.",
-              "failure_cases": ["PR updated after initial Finding creation (e.g., more commits pushed) -> Finding is updated, not duplicated, keyed on the PR's unique identifier"],
+              "failure_cases": [
+                "PR updated after initial Finding creation (e.g., more commits pushed) -> Finding is updated, not duplicated, keyed on the PR's unique identifier"
+              ],
               "security_considerations": "Tenant isolation on Finding records verified with the same adversarial-test discipline as PHASE-2.4.",
-              "testing_requirements": ["Integration test for Finding generation on backfill", "Integration test for Finding generation/update on webhook event", "Adversarial tenant-isolation test on Finding records"],
-              "definition_of_done": ["Findings correctly and securely generated for all ingested PR data, old and new"],
+              "testing_requirements": [
+                "Integration test for Finding generation on backfill",
+                "Integration test for Finding generation/update on webhook event",
+                "Adversarial tenant-isolation test on Finding records"
+              ],
+              "definition_of_done": [
+                "Findings correctly and securely generated for all ingested PR data, old and new"
+              ],
               "priority": "blocking"
             }
           ],
-          "expected_artifacts": ["Finding schema and generation logic", "Populated Finding data for a real test repo"],
+          "expected_artifacts": [
+            "Finding schema and generation logic",
+            "Populated Finding data for a real test repo"
+          ],
           "testing_strategy": "Unit tests for scoring, integration tests for Finding generation on both backfill and webhook paths, adversarial tenant-isolation test.",
           "security_checks": ["Tenant isolation on Finding records verified"],
-          "validation_steps": ["All listed tests passing", "Manual spot-check of generated Findings against real PR data for plausibility"],
-          "completion_criteria": ["Findings correctly generated, scored, and tagged for a real connected repository"],
+          "validation_steps": [
+            "All listed tests passing",
+            "Manual spot-check of generated Findings against real PR data for plausibility"
+          ],
+          "completion_criteria": [
+            "Findings correctly generated, scored, and tagged for a real connected repository"
+          ],
           "rollback_considerations": "Additive schema; scoring logic is versioned so future tuning does not silently reinterpret historical Findings without an explicit migration/recompute decision.",
-          "risks": ["Review-depth score being a weak proxy for actual comprehension is an acknowledged, inherent limitation (per blueprint's own honesty about this) - mitigated by clear UI framing in PHASE-5, not by pretending the proxy is more certain than it is"]
+          "risks": [
+            "Review-depth score being a weak proxy for actual comprehension is an acknowledged, inherent limitation (per blueprint's own honesty about this) - mitigated by clear UI framing in PHASE-5, not by pretending the proxy is more certain than it is"
+          ]
         }
       ],
       "phase_validation": {
@@ -855,15 +1287,36 @@
       "expected_outcome": "Findings carry an AI-assessed authorship-confidence value, clearly badged as AI-derived per blueprint Section 4's trust-badge requirement, with validated, bounded, cost-controlled AI usage.",
       "dependencies": {
         "prerequisite_phases": ["PHASE-3"],
-        "prerequisite_tasks": ["Pre-flight item PF-2 (AI provider selection) resolved as a blocking prerequisite task within this phase"],
-        "external_dependencies": ["Verified AI provider data-retention/training terms adequate for source-code processing - explicitly required before any real (non-synthetic) code is sent"],
-        "required_credentials_access": ["Human developer must create AI provider account(s) and confirm current terms of service/data handling policy for the account tier used"]
+        "prerequisite_tasks": [
+          "Pre-flight item PF-2 (AI provider selection) resolved as a blocking prerequisite task within this phase"
+        ],
+        "external_dependencies": [
+          "Verified AI provider data-retention/training terms adequate for source-code processing - explicitly required before any real (non-synthetic) code is sent"
+        ],
+        "required_credentials_access": [
+          "Human developer must create AI provider account(s) and confirm current terms of service/data handling policy for the account tier used"
+        ]
       },
       "scope": {
-        "included": ["AI provider selection and verification", "AI Orchestration Service with structured-output/schema validation", "Provider fallback mechanism", "Secrets pre-filtering before any AI call (per blueprint Section 9 data-flow rule)", "Cost controls and per-org rate limiting on AI calls", "Curated evaluation dataset for regression testing (blueprint Section 15)", "Prompt versioning system"],
-        "excluded": ["Comprehension-challenge feature (uses this infrastructure but is built in PHASE-6, per blueprint Section 22's explicit dependency ordering)"],
-        "affected_systems": ["New AI Orchestration module", "Finding table (authorship-confidence field now populated)"],
-        "affected_users": ["Indirectly all users, via the Findings they view; no new direct UI in this phase beyond surfacing the AI badge, which is PHASE-5"]
+        "included": [
+          "AI provider selection and verification",
+          "AI Orchestration Service with structured-output/schema validation",
+          "Provider fallback mechanism",
+          "Secrets pre-filtering before any AI call (per blueprint Section 9 data-flow rule)",
+          "Cost controls and per-org rate limiting on AI calls",
+          "Curated evaluation dataset for regression testing (blueprint Section 15)",
+          "Prompt versioning system"
+        ],
+        "excluded": [
+          "Comprehension-challenge feature (uses this infrastructure but is built in PHASE-6, per blueprint Section 22's explicit dependency ordering)"
+        ],
+        "affected_systems": [
+          "New AI Orchestration module",
+          "Finding table (authorship-confidence field now populated)"
+        ],
+        "affected_users": [
+          "Indirectly all users, via the Findings they view; no new direct UI in this phase beyond surfacing the AI badge, which is PHASE-5"
+        ]
       },
       "sub_phases": [
         {
@@ -879,14 +1332,20 @@
               "detailed_description": "This must be checked against live, current documentation at implementation time, not assumed from the earlier blueprint discussion, which itself flagged this as unverified.",
               "dependencies": [],
               "inputs": ["Current provider documentation/terms of service"],
-              "expected_outputs": ["Documented verification record: provider, account tier, confirmed data-handling terms, source checked"],
+              "expected_outputs": [
+                "Documented verification record: provider, account tier, confirmed data-handling terms, source checked"
+              ],
               "affected_components": [],
               "implementation_notes": "If verification cannot be completed with confidence, this must be explicitly reported as unresolved rather than proceeding on an assumption - this task blocks all subsequent AI-related work in this phase until resolved.",
               "validation": "Documented verification reviewed and approved by human developer before proceeding.",
-              "failure_cases": ["No provider can be verified to have adequate terms at reasonable cost -> escalate to human developer for a business decision, not silently proceed with an unverified provider"],
+              "failure_cases": [
+                "No provider can be verified to have adequate terms at reasonable cost -> escalate to human developer for a business decision, not silently proceed with an unverified provider"
+              ],
               "security_considerations": "This task exists specifically to prevent the data-leakage risk identified in blueprint Section 10.",
               "testing_requirements": "Not applicable - documentation verification task.",
-              "definition_of_done": ["Verification record documented and human-approved"],
+              "definition_of_done": [
+                "Verification record documented and human-approved"
+              ],
               "priority": "blocking"
             },
             {
@@ -895,24 +1354,43 @@
               "objective": "Finalize primary and secondary provider selection per blueprint Section 8's explicit fallback requirement.",
               "dependencies": ["T-4.1.1"],
               "inputs": ["Verification record"],
-              "expected_outputs": ["Provider API credentials configured as secrets", "Basic connectivity test to both providers succeeding"],
+              "expected_outputs": [
+                "Provider API credentials configured as secrets",
+                "Basic connectivity test to both providers succeeding"
+              ],
               "affected_components": ["AI Orchestration module configuration"],
               "implementation_notes": "Fallback provider must also pass the same T-4.1.1 verification standard, not be added as an afterthought with lower scrutiny.",
               "validation": "Successful test call to both primary and fallback providers using non-sensitive synthetic test data only at this stage.",
-              "failure_cases": ["Fallback provider's terms are inadequate -> either find an adequate alternative or explicitly document graceful-degradation-only fallback behavior with human sign-off"],
+              "failure_cases": [
+                "Fallback provider's terms are inadequate -> either find an adequate alternative or explicitly document graceful-degradation-only fallback behavior with human sign-off"
+              ],
               "security_considerations": "API keys stored via the secrets mechanism established in PHASE-1, never hardcoded.",
-              "testing_requirements": ["Connectivity test to both providers using synthetic, non-sensitive data"],
-              "definition_of_done": ["Both providers configured, verified, and connectivity-tested with synthetic data"],
+              "testing_requirements": [
+                "Connectivity test to both providers using synthetic, non-sensitive data"
+              ],
+              "definition_of_done": [
+                "Both providers configured, verified, and connectivity-tested with synthetic data"
+              ],
               "priority": "blocking"
             }
           ],
-          "expected_artifacts": ["Documented provider verification and selection record"],
+          "expected_artifacts": [
+            "Documented provider verification and selection record"
+          ],
           "testing_strategy": "Connectivity tests with synthetic data only.",
-          "security_checks": ["No real customer code sent to any provider until verification is complete and approved"],
-          "validation_steps": ["Human developer sign-off on the verification record"],
-          "completion_criteria": ["Verified, approved primary and fallback providers configured"],
+          "security_checks": [
+            "No real customer code sent to any provider until verification is complete and approved"
+          ],
+          "validation_steps": [
+            "Human developer sign-off on the verification record"
+          ],
+          "completion_criteria": [
+            "Verified, approved primary and fallback providers configured"
+          ],
           "rollback_considerations": "Provider choice is behind an abstraction (AI Orchestration Service) specifically so it can be changed later without touching calling code, per blueprint Section 8's architectural intent.",
-          "risks": ["This is a hard blocking gate specifically because sending real source code to an unverified provider would violate the product's own core trust proposition - treated with maximum seriousness, not routine"]
+          "risks": [
+            "This is a hard blocking gate specifically because sending real source code to an unverified provider would violate the product's own core trust proposition - treated with maximum seriousness, not routine"
+          ]
         },
         {
           "sub_phase_id": "PHASE-4.2",
@@ -927,14 +1405,23 @@
               "detailed_description": "Use a pattern-based secrets-detection pass (common credential/key patterns) as a pre-filter; this is a safety net, not a claim of perfect detection, and must be documented as such.",
               "dependencies": ["PHASE-4.1"],
               "inputs": ["Raw diff/snippet content destined for an AI call"],
-              "expected_outputs": ["Filtered content with detected secret-like patterns redacted before any external call"],
+              "expected_outputs": [
+                "Filtered content with detected secret-like patterns redacted before any external call"
+              ],
               "affected_components": ["AI Orchestration module"],
               "implementation_notes": "This filter runs on every single outbound snippet, with no code path that bypasses it - enforced structurally, not by convention.",
               "validation": "Unit tests with known secret-pattern examples confirm redaction; test that non-secret code is not falsely mangled beyond acceptable bounds.",
-              "failure_cases": ["Pattern-based detection misses a real secret -> documented as a known limitation, not claimed as complete protection"],
+              "failure_cases": [
+                "Pattern-based detection misses a real secret -> documented as a known limitation, not claimed as complete protection"
+              ],
               "security_considerations": "This task directly implements blueprint Section 9's 'must never be sent' data-classification rule for secrets.",
-              "testing_requirements": ["Unit tests covering common secret patterns", "Test confirming normal code is not corrupted by the filter"],
-              "definition_of_done": ["Pre-filter implemented, tested, and structurally unbypassable"],
+              "testing_requirements": [
+                "Unit tests covering common secret patterns",
+                "Test confirming normal code is not corrupted by the filter"
+              ],
+              "definition_of_done": [
+                "Pre-filter implemented, tested, and structurally unbypassable"
+              ],
               "priority": "blocking"
             },
             {
@@ -944,14 +1431,22 @@
               "detailed_description": "The orchestration layer's function signature should make it structurally difficult to accidentally pass more context than intended - e.g., accept a bounded snippet type, not an arbitrary file/repo reference.",
               "dependencies": ["T-4.2.1"],
               "inputs": ["Specific PR diff"],
-              "expected_outputs": ["AI calls provably scoped to only the relevant diff"],
+              "expected_outputs": [
+                "AI calls provably scoped to only the relevant diff"
+              ],
               "affected_components": ["AI Orchestration module"],
               "implementation_notes": "Design the internal API to make over-scoping a type error where feasible, not just a documentation convention.",
               "validation": "Test confirming a call cannot be constructed with more than the intended scope without an explicit, deliberate code change.",
-              "failure_cases": ["Not applicable - this is a structural constraint, not a runtime failure mode"],
+              "failure_cases": [
+                "Not applicable - this is a structural constraint, not a runtime failure mode"
+              ],
               "security_considerations": "Directly implements the data-minimization principle from blueprint Section 9.",
-              "testing_requirements": ["Test/type-check confirming scoping constraint"],
-              "definition_of_done": ["Scoping constraint structurally enforced and tested"],
+              "testing_requirements": [
+                "Test/type-check confirming scoping constraint"
+              ],
+              "definition_of_done": [
+                "Scoping constraint structurally enforced and tested"
+              ],
               "priority": "blocking"
             },
             {
@@ -961,14 +1456,28 @@
               "detailed_description": "Use the provider's function-calling/JSON-schema mode (per blueprint Section 8) rather than free-text parsing. On validation failure: retry once, then fall back to an explicit 'AI assessment unavailable' state, per blueprint Section 14.",
               "dependencies": ["T-4.2.2"],
               "inputs": ["Scoped diff content"],
-              "expected_outputs": ["Validated authorship-confidence result, or an explicit unavailable state - never raw/unvalidated output"],
-              "affected_components": ["AI Orchestration module", "Finding table (authorship-confidence field populated)"],
+              "expected_outputs": [
+                "Validated authorship-confidence result, or an explicit unavailable state - never raw/unvalidated output"
+              ],
+              "affected_components": [
+                "AI Orchestration module",
+                "Finding table (authorship-confidence field populated)"
+              ],
               "implementation_notes": "Schema validation must happen server-side regardless of the provider's own claimed structured-output guarantees - defense in depth per blueprint Section 15.",
               "validation": "Test with a deliberately malformed provider response (simulated) to confirm rejection and fallback behavior.",
-              "failure_cases": ["Provider returns malformed output -> rejected, retried once, then falls back to unavailable state, logged", "Provider call times out -> same fallback path"],
+              "failure_cases": [
+                "Provider returns malformed output -> rejected, retried once, then falls back to unavailable state, logged",
+                "Provider call times out -> same fallback path"
+              ],
               "security_considerations": "Prevents any AI hallucination from being silently trusted as fact, per blueprint's core AI-reliability principle.",
-              "testing_requirements": ["Test valid structured response accepted", "Test malformed response rejected with correct fallback", "Test timeout handled with correct fallback"],
-              "definition_of_done": ["Structured-output validation implemented and tested for all listed cases"],
+              "testing_requirements": [
+                "Test valid structured response accepted",
+                "Test malformed response rejected with correct fallback",
+                "Test timeout handled with correct fallback"
+              ],
+              "definition_of_done": [
+                "Structured-output validation implemented and tested for all listed cases"
+              ],
               "priority": "blocking"
             },
             {
@@ -977,14 +1486,23 @@
               "objective": "Automatically retry a failed/unavailable primary-provider call against the verified fallback provider, per blueprint Section 8.",
               "dependencies": ["T-4.2.3"],
               "inputs": ["Failed primary provider call"],
-              "expected_outputs": ["Successful fallback-provider result, or the documented unavailable state if both fail"],
+              "expected_outputs": [
+                "Successful fallback-provider result, or the documented unavailable state if both fail"
+              ],
               "affected_components": ["AI Orchestration module"],
               "implementation_notes": "Fallback attempt must go through the same schema-validation path as the primary - no relaxed validation for the fallback provider.",
               "validation": "Test simulating primary provider failure confirms fallback is attempted and, if it succeeds, produces a correctly validated result.",
-              "failure_cases": ["Both providers fail -> explicit unavailable state, not a crash or silent gap"],
+              "failure_cases": [
+                "Both providers fail -> explicit unavailable state, not a crash or silent gap"
+              ],
               "security_considerations": "Not applicable beyond what T-4.2.3 already covers.",
-              "testing_requirements": ["Test primary-failure-triggers-fallback path", "Test both-fail path"],
-              "definition_of_done": ["Fallback mechanism implemented and tested"],
+              "testing_requirements": [
+                "Test primary-failure-triggers-fallback path",
+                "Test both-fail path"
+              ],
+              "definition_of_done": [
+                "Fallback mechanism implemented and tested"
+              ],
               "priority": "high"
             },
             {
@@ -994,24 +1512,52 @@
               "detailed_description": "Cache classification results per diff (a given diff does not need re-classification, per blueprint Section 8) and enforce a configurable monthly cost/call ceiling per Organization, with alerting before the limit is hit.",
               "dependencies": ["T-4.2.4"],
               "inputs": ["Per-org AI usage history"],
-              "expected_outputs": ["Caching layer preventing redundant calls", "Enforced per-org ceiling with pre-limit alerting"],
-              "affected_components": ["AI Orchestration module", "new usage-tracking table"],
+              "expected_outputs": [
+                "Caching layer preventing redundant calls",
+                "Enforced per-org ceiling with pre-limit alerting"
+              ],
+              "affected_components": [
+                "AI Orchestration module",
+                "new usage-tracking table"
+              ],
               "implementation_notes": "Ceiling values are a configuration/business decision, not an engineering invention - flagged as requiring human/business input on actual limit values, though the mechanism itself is an engineering task.",
               "validation": "Test confirming a cached diff does not trigger a second AI call; test confirming ceiling enforcement blocks further calls once reached, with a clear user-facing message, not a silent failure.",
-              "failure_cases": ["Ceiling reached mid-backfill -> remaining Findings correctly marked 'AI assessment pending, quota reached' rather than silently skipped without explanation"],
+              "failure_cases": [
+                "Ceiling reached mid-backfill -> remaining Findings correctly marked 'AI assessment pending, quota reached' rather than silently skipped without explanation"
+              ],
               "security_considerations": "Prevents a compromised/misbehaving integration from causing unbounded cost exposure.",
-              "testing_requirements": ["Test caching prevents duplicate calls", "Test ceiling enforcement and correct user-facing state"],
-              "definition_of_done": ["Caching and cost-ceiling enforcement implemented and tested"],
+              "testing_requirements": [
+                "Test caching prevents duplicate calls",
+                "Test ceiling enforcement and correct user-facing state"
+              ],
+              "definition_of_done": [
+                "Caching and cost-ceiling enforcement implemented and tested"
+              ],
               "priority": "high"
             }
           ],
-          "expected_artifacts": ["AI Orchestration Service module", "Populated authorship-confidence data on real Findings (using verified-adequate provider terms)"],
+          "expected_artifacts": [
+            "AI Orchestration Service module",
+            "Populated authorship-confidence data on real Findings (using verified-adequate provider terms)"
+          ],
           "testing_strategy": "Extensive unit and integration testing per task, given this sub-phase carries the project's single highest-severity technical risk.",
-          "security_checks": ["Secrets pre-filtering verified", "Scoped-context enforcement verified", "Schema validation verified against malformed input", "No cross-tenant data mixing in any AI call, verified"],
-          "validation_steps": ["All listed tests passing", "Manual review of real classification results on the test repository for plausibility"],
-          "completion_criteria": ["AI Orchestration Service fully implemented, tested, and producing plausible, safely-bounded results on a real test repository"],
+          "security_checks": [
+            "Secrets pre-filtering verified",
+            "Scoped-context enforcement verified",
+            "Schema validation verified against malformed input",
+            "No cross-tenant data mixing in any AI call, verified"
+          ],
+          "validation_steps": [
+            "All listed tests passing",
+            "Manual review of real classification results on the test repository for plausibility"
+          ],
+          "completion_criteria": [
+            "AI Orchestration Service fully implemented, tested, and producing plausible, safely-bounded results on a real test repository"
+          ],
           "rollback_considerations": "Provider abstraction allows switching providers without touching calling code, mitigating lock-in risk.",
-          "risks": ["Classification accuracy itself (as opposed to the orchestration plumbing around it) remains the project's largest unresolved risk - this sub-phase makes the plumbing trustworthy but does not by itself prove the classifier's real-world accuracy, which requires PHASE-4.3's evaluation dataset work"]
+          "risks": [
+            "Classification accuracy itself (as opposed to the orchestration plumbing around it) remains the project's largest unresolved risk - this sub-phase makes the plumbing trustworthy but does not by itself prove the classifier's real-world accuracy, which requires PHASE-4.3's evaluation dataset work"
+          ]
         },
         {
           "sub_phase_id": "PHASE-4.3",
@@ -1025,15 +1571,26 @@
               "objective": "Assemble a set of real PRs with human-assigned ground-truth labels (AI-authored: yes/no/uncertain, with rationale) to measure classifier accuracy against, per blueprint Section 15.",
               "detailed_description": "Sourced from the PHASE-0 manual-analysis work if suitable data exists there, plus additional labeling as needed. This is a human-labor task requiring human judgment, not something the IDE can generate on its own.",
               "dependencies": [],
-              "inputs": ["Real PR data from test/pilot repositories, with permission", "Human labeling effort"],
-              "expected_outputs": ["A versioned evaluation dataset of realistic size (exact size to be determined by available labeled data - not fabricated)"],
-              "affected_components": ["New evaluation-dataset storage (could be a simple versioned file/table, not necessarily a complex system)"],
+              "inputs": [
+                "Real PR data from test/pilot repositories, with permission",
+                "Human labeling effort"
+              ],
+              "expected_outputs": [
+                "A versioned evaluation dataset of realistic size (exact size to be determined by available labeled data - not fabricated)"
+              ],
+              "affected_components": [
+                "New evaluation-dataset storage (could be a simple versioned file/table, not necessarily a complex system)"
+              ],
               "implementation_notes": "Dataset size and composition depends entirely on data actually available and human labeling capacity - this must not be invented or padded to look more rigorous than it is.",
               "validation": "Dataset reviewed by human developer for label quality/consistency before use.",
-              "failure_cases": ["Insufficient labeled data available -> explicitly document the resulting reduced confidence in classifier validation, do not proceed as if a robust eval set exists when it does not"],
+              "failure_cases": [
+                "Insufficient labeled data available -> explicitly document the resulting reduced confidence in classifier validation, do not proceed as if a robust eval set exists when it does not"
+              ],
               "security_considerations": "Same data-handling discipline as any other real customer code applies to this dataset.",
               "testing_requirements": "Not applicable - this produces test fixtures, not code under test itself.",
-              "definition_of_done": ["Evaluation dataset exists, versioned, human-reviewed for quality"],
+              "definition_of_done": [
+                "Evaluation dataset exists, versioned, human-reviewed for quality"
+              ],
               "priority": "blocking"
             },
             {
@@ -1042,25 +1599,48 @@
               "objective": "Run the classifier against the evaluation dataset automatically on every prompt or model change, per blueprint Section 15's explicit requirement.",
               "detailed_description": "Report accuracy/precision/recall-style metrics (exact metric choice appropriate to a classification task) and flag any regression versus the previous baseline.",
               "dependencies": ["T-4.3.1"],
-              "inputs": ["Evaluation dataset", "Current classifier/prompt version"],
-              "expected_outputs": ["Automated eval run producing a scored report, integrated into CI for any change touching the AI Orchestration module's prompts"],
-              "affected_components": ["CI pipeline (extended)", "AI Orchestration module"],
+              "inputs": [
+                "Evaluation dataset",
+                "Current classifier/prompt version"
+              ],
+              "expected_outputs": [
+                "Automated eval run producing a scored report, integrated into CI for any change touching the AI Orchestration module's prompts"
+              ],
+              "affected_components": [
+                "CI pipeline (extended)",
+                "AI Orchestration module"
+              ],
               "implementation_notes": "This becomes a required, non-skippable CI check for any future change to the classification prompt/logic, per blueprint Section 22's explicit dependency note that comprehension-grading work in PHASE-6 must not begin without this infrastructure in place.",
               "validation": "Eval run executes successfully and produces a baseline score against the current classifier version.",
-              "failure_cases": ["Eval run itself fails to execute (infra issue) -> must be fixed before proceeding, cannot be skipped"],
+              "failure_cases": [
+                "Eval run itself fails to execute (infra issue) -> must be fixed before proceeding, cannot be skipped"
+              ],
               "security_considerations": "Not applicable beyond standard CI secret handling.",
               "testing_requirements": "The eval run is itself the test mechanism for this task.",
-              "definition_of_done": ["Automated eval integrated into CI, baseline score recorded"],
+              "definition_of_done": [
+                "Automated eval integrated into CI, baseline score recorded"
+              ],
               "priority": "blocking"
             }
           ],
-          "expected_artifacts": ["Versioned evaluation dataset", "Automated CI eval check with a recorded baseline score"],
+          "expected_artifacts": [
+            "Versioned evaluation dataset",
+            "Automated CI eval check with a recorded baseline score"
+          ],
           "testing_strategy": "The evaluation run itself; this sub-phase is testing infrastructure for the AI feature.",
-          "security_checks": ["Data-handling discipline applied to the evaluation dataset itself"],
-          "validation_steps": ["Baseline eval score recorded and reviewed by human developer"],
-          "completion_criteria": ["Evaluation dataset and automated regression check exist and produce a documented baseline accuracy figure - whatever that figure honestly turns out to be"],
+          "security_checks": [
+            "Data-handling discipline applied to the evaluation dataset itself"
+          ],
+          "validation_steps": [
+            "Baseline eval score recorded and reviewed by human developer"
+          ],
+          "completion_criteria": [
+            "Evaluation dataset and automated regression check exist and produce a documented baseline accuracy figure - whatever that figure honestly turns out to be"
+          ],
           "rollback_considerations": "not_applicable - test infrastructure",
-          "risks": ["If the baseline accuracy is poor, this is critical information that must directly inform whether PHASE-5 onward proceeds as planned or requires a scope reconsideration - explicitly not something to proceed past silently"]
+          "risks": [
+            "If the baseline accuracy is poor, this is critical information that must directly inform whether PHASE-5 onward proceeds as planned or requires a scope reconsideration - explicitly not something to proceed past silently"
+          ]
         }
       ],
       "phase_validation": {
@@ -1091,10 +1671,27 @@
         "required_credentials_access": []
       },
       "scope": {
-        "included": ["Org-wide dashboard", "Repo/project view", "Finding detail page (all 4 disclosure layers)", "Action buttons (resolve/dismiss/reassign - dismiss requires reason per blueprint Section 3)", "Basic PDF/CSV report export", "Empty/loading/error/permission states across all new pages, per blueprint Section 3"],
-        "excluded": ["Comprehension-check UI (PHASE-6)", "Slack/notification integration (PHASE-6)", "Trend/history view (PHASE-6)", "Advanced compliance-framework-mapped reports (PHASE-8)"],
-        "affected_systems": ["Frontend application (majority of new work)", "Reporting module (new)"],
-        "affected_users": ["All personas defined in blueprint Section 2, this is the first phase where most personas get a real usable interface"]
+        "included": [
+          "Org-wide dashboard",
+          "Repo/project view",
+          "Finding detail page (all 4 disclosure layers)",
+          "Action buttons (resolve/dismiss/reassign - dismiss requires reason per blueprint Section 3)",
+          "Basic PDF/CSV report export",
+          "Empty/loading/error/permission states across all new pages, per blueprint Section 3"
+        ],
+        "excluded": [
+          "Comprehension-check UI (PHASE-6)",
+          "Slack/notification integration (PHASE-6)",
+          "Trend/history view (PHASE-6)",
+          "Advanced compliance-framework-mapped reports (PHASE-8)"
+        ],
+        "affected_systems": [
+          "Frontend application (majority of new work)",
+          "Reporting module (new)"
+        ],
+        "affected_users": [
+          "All personas defined in blueprint Section 2, this is the first phase where most personas get a real usable interface"
+        ]
       },
       "sub_phases": [
         {
@@ -1110,14 +1707,23 @@
               "detailed_description": "These components encode the fact-vs-interpretation visual distinction that blueprint Section 4/15 establishes as the core trust mechanism - built once, reused everywhere, not redefined per page.",
               "dependencies": [],
               "inputs": ["Blueprint Section 18 principles"],
-              "expected_outputs": ["A small internal component library covering severity badges, status badges, AI-assessed badges with confidence display, monospace evidence blocks"],
+              "expected_outputs": [
+                "A small internal component library covering severity badges, status badges, AI-assessed badges with confidence display, monospace evidence blocks"
+              ],
               "affected_components": ["New shared UI component directory"],
               "implementation_notes": "Accessibility (WCAG 2.1 AA target per blueprint Section 18) must be built into these primitives from the start - e.g., status not conveyed by color alone.",
               "validation": "Automated accessibility check (e.g., axe-core) run against a component showcase/storybook-style page.",
-              "failure_cases": ["Color-only status signaling -> must be fixed to include text/icon, not color alone"],
+              "failure_cases": [
+                "Color-only status signaling -> must be fixed to include text/icon, not color alone"
+              ],
               "security_considerations": "Evidence-snippet component must safely escape code content to prevent stored XSS from malicious code in a snippet, per blueprint Section 10's explicit warning.",
-              "testing_requirements": ["Automated accessibility test", "Test confirming code-snippet rendering safely escapes potentially malicious content"],
-              "definition_of_done": ["Core component library exists, accessibility-tested, and XSS-safe for code rendering"],
+              "testing_requirements": [
+                "Automated accessibility test",
+                "Test confirming code-snippet rendering safely escapes potentially malicious content"
+              ],
+              "definition_of_done": [
+                "Core component library exists, accessibility-tested, and XSS-safe for code rendering"
+              ],
               "priority": "blocking"
             }
           ],
@@ -1125,9 +1731,13 @@
           "testing_strategy": "Automated accessibility testing; explicit XSS-safety test.",
           "security_checks": ["Code-snippet rendering XSS safety verified"],
           "validation_steps": ["Tests passing"],
-          "completion_criteria": ["Component library ready for use across all subsequent pages in this phase"],
+          "completion_criteria": [
+            "Component library ready for use across all subsequent pages in this phase"
+          ],
           "rollback_considerations": "Low risk, purely additive UI layer.",
-          "risks": ["Skipping this foundation and building pages ad hoc would recreate the fact-vs-interpretation distinction inconsistently - explicitly why this sub-phase exists first"]
+          "risks": [
+            "Skipping this foundation and building pages ad hoc would recreate the fact-vs-interpretation distinction inconsistently - explicitly why this sub-phase exists first"
+          ]
         },
         {
           "sub_phase_id": "PHASE-5.2",
@@ -1142,14 +1752,27 @@
               "detailed_description": "Query performance matters here given blueprint Section 8's indexing notes on (org_id, criticality, created_at) - use those indexes as designed.",
               "dependencies": [],
               "inputs": ["Finding data across all org repos"],
-              "expected_outputs": ["Working dashboard page with correct empty/loading/error states"],
-              "affected_components": ["Dashboard page (frontend)", "Findings query API endpoint"],
+              "expected_outputs": [
+                "Working dashboard page with correct empty/loading/error states"
+              ],
+              "affected_components": [
+                "Dashboard page (frontend)",
+                "Findings query API endpoint"
+              ],
               "implementation_notes": "Distinguish explicitly between 'no repos connected yet' and 'repos connected, no findings' empty states, per blueprint Section 3's explicit note that this distinction matters for trust.",
               "validation": "Manual review against real test-repo data; verify both empty-state variants render correctly.",
-              "failure_cases": ["Large finding count causes slow query -> verify indexes are actually used, not just present"],
+              "failure_cases": [
+                "Large finding count causes slow query -> verify indexes are actually used, not just present"
+              ],
               "security_considerations": "Dashboard query strictly scoped to the current user's Organization, tenant-isolation-tested.",
-              "testing_requirements": ["Integration test for dashboard data correctness", "Adversarial tenant-isolation test", "Test for both empty-state variants"],
-              "definition_of_done": ["Dashboard functional, correctly scoped, tested, both empty states distinct and correct"],
+              "testing_requirements": [
+                "Integration test for dashboard data correctness",
+                "Adversarial tenant-isolation test",
+                "Test for both empty-state variants"
+              ],
+              "definition_of_done": [
+                "Dashboard functional, correctly scoped, tested, both empty states distinct and correct"
+              ],
               "priority": "blocking"
             },
             {
@@ -1158,24 +1781,43 @@
               "objective": "Show filterable/sortable finding list per repo, per blueprint Section 3.",
               "dependencies": ["T-5.2.1"],
               "inputs": ["Finding data for a specific repo"],
-              "expected_outputs": ["Working repo view with filter by team/criticality/status"],
-              "affected_components": ["Repo view page (frontend, replacing the minimal PHASE-2.4 version)", "Findings query API endpoint (extended with filters)"],
+              "expected_outputs": [
+                "Working repo view with filter by team/criticality/status"
+              ],
+              "affected_components": [
+                "Repo view page (frontend, replacing the minimal PHASE-2.4 version)",
+                "Findings query API endpoint (extended with filters)"
+              ],
               "implementation_notes": "Cursor-based pagination per blueprint Section 17, not offset pagination.",
               "validation": "Manual review with realistic finding volume; verify filters produce correct results.",
-              "failure_cases": ["Pagination breaks under concurrent writes -> cursor-based approach specifically mitigates this, verified by test"],
+              "failure_cases": [
+                "Pagination breaks under concurrent writes -> cursor-based approach specifically mitigates this, verified by test"
+              ],
               "security_considerations": "Same tenant-scoping discipline as T-5.2.1.",
-              "testing_requirements": ["Integration test for filtering correctness", "Test for pagination correctness under concurrent data changes"],
-              "definition_of_done": ["Repo view functional, filterable, correctly paginated and scoped"],
+              "testing_requirements": [
+                "Integration test for filtering correctness",
+                "Test for pagination correctness under concurrent data changes"
+              ],
+              "definition_of_done": [
+                "Repo view functional, filterable, correctly paginated and scoped"
+              ],
               "priority": "blocking"
             }
           ],
           "expected_artifacts": ["Dashboard and repo-view pages"],
           "testing_strategy": "Integration tests per task plus adversarial tenant-isolation tests.",
           "security_checks": ["Tenant isolation verified on both pages"],
-          "validation_steps": ["Manual review against real data", "All tests passing"],
-          "completion_criteria": ["Both pages functional, correctly scoped, and tested"],
+          "validation_steps": [
+            "Manual review against real data",
+            "All tests passing"
+          ],
+          "completion_criteria": [
+            "Both pages functional, correctly scoped, and tested"
+          ],
           "rollback_considerations": "Low risk, replaces PHASE-2.4's minimal page with a fuller version - old page's tests should still conceptually pass against the new implementation.",
-          "risks": ["Query performance at realistic finding volumes not yet proven at true scale - acceptable for this phase, explicitly revisited in PHASE-8/scalability work"]
+          "risks": [
+            "Query performance at realistic finding volumes not yet proven at true scale - acceptable for this phase, explicitly revisited in PHASE-8/scalability work"
+          ]
         },
         {
           "sub_phase_id": "PHASE-5.3",
@@ -1190,14 +1832,22 @@
               "detailed_description": "Per blueprint Section 4's exact example pattern - Layer 1 states what happened, Layer 2 explains why it matters, using the Finding's criticality tag, review-depth score, and authorship confidence to construct the sentence. This text generation is templated/deterministic based on the underlying data, not a fresh AI call per view (avoiding unnecessary AI cost/latency for what is fundamentally a data-driven sentence).",
               "dependencies": [],
               "inputs": ["Finding record with all Phase 3/4 fields populated"],
-              "expected_outputs": ["Layer 1/2 text rendering correctly for a range of real Finding examples"],
+              "expected_outputs": [
+                "Layer 1/2 text rendering correctly for a range of real Finding examples"
+              ],
               "affected_components": ["Finding detail page (frontend)"],
               "implementation_notes": "Templated text generation, not a live LLM call - keeps this fast, cheap, and deterministic, appropriate since the underlying data is already computed.",
               "validation": "Manual review of generated text against a range of real Findings for clarity and accuracy.",
-              "failure_cases": ["Missing/null authorship-confidence (e.g., AI assessment still pending) -> template correctly reflects 'pending' state, not a broken sentence"],
+              "failure_cases": [
+                "Missing/null authorship-confidence (e.g., AI assessment still pending) -> template correctly reflects 'pending' state, not a broken sentence"
+              ],
               "security_considerations": "Not applicable - reads already-validated data.",
-              "testing_requirements": ["Unit tests for the templating logic covering normal, pending-AI-assessment, and edge-case data combinations"],
-              "definition_of_done": ["Layer 1/2 rendering correctly and clearly across tested scenarios"],
+              "testing_requirements": [
+                "Unit tests for the templating logic covering normal, pending-AI-assessment, and edge-case data combinations"
+              ],
+              "definition_of_done": [
+                "Layer 1/2 rendering correctly and clearly across tested scenarios"
+              ],
               "priority": "blocking"
             },
             {
@@ -1207,24 +1857,53 @@
               "detailed_description": "Layer 3: file path, authorship-confidence with source (AI-assessed vs metadata-confirmed), review-time/comment/approval data, criticality tag with the matched rule, linked PR. Layer 4: Request re-review, Mark resolved, Dismiss (with mandatory reason field, per blueprint Section 3), Dispute flag.",
               "dependencies": ["T-5.3.1"],
               "inputs": ["Full Finding + Evidence records"],
-              "expected_outputs": ["Working Layer 3/4 UI with functional action buttons"],
-              "affected_components": ["Finding detail page", "Action table (new migration, per blueprint Section 16)", "Action API endpoints"],
+              "expected_outputs": [
+                "Working Layer 3/4 UI with functional action buttons"
+              ],
+              "affected_components": [
+                "Finding detail page",
+                "Action table (new migration, per blueprint Section 16)",
+                "Action API endpoints"
+              ],
               "implementation_notes": "Every action must write an Action record and an AuditLog entry per blueprint Section 16 - this is the first implementation of the audit-logging requirement, establishing the pattern for all future admin/state-changing actions.",
               "validation": "Manual test of each action button; verify Action and AuditLog records are correctly created.",
-              "failure_cases": ["Dismiss without a reason -> blocked client- and server-side, not just client-side", "Concurrent actions on the same Finding by two users -> last-write-wins is acceptable but must not corrupt data or crash"],
+              "failure_cases": [
+                "Dismiss without a reason -> blocked client- and server-side, not just client-side",
+                "Concurrent actions on the same Finding by two users -> last-write-wins is acceptable but must not corrupt data or crash"
+              ],
               "security_considerations": "Action endpoints require appropriate role authorization (e.g., dismiss may require Team Lead+ per the RBAC model, exact mapping to be confirmed against blueprint Section 2 personas).",
-              "testing_requirements": ["Integration test per action type", "Test that dismiss-without-reason is rejected", "Test that AuditLog entry is correctly created for every action", "Authorization test per role"],
-              "definition_of_done": ["Layer 3/4 fully functional, all actions tested including authorization and audit-logging"],
+              "testing_requirements": [
+                "Integration test per action type",
+                "Test that dismiss-without-reason is rejected",
+                "Test that AuditLog entry is correctly created for every action",
+                "Authorization test per role"
+              ],
+              "definition_of_done": [
+                "Layer 3/4 fully functional, all actions tested including authorization and audit-logging"
+              ],
               "priority": "blocking"
             }
           ],
-          "expected_artifacts": ["Complete 4-layer Finding detail page", "Action and AuditLog schema and logic"],
+          "expected_artifacts": [
+            "Complete 4-layer Finding detail page",
+            "Action and AuditLog schema and logic"
+          ],
           "testing_strategy": "Unit tests for templating, integration tests for every action including authorization and audit-log verification.",
-          "security_checks": ["Action authorization enforced server-side", "AuditLog correctly and immutably records every action"],
-          "validation_steps": ["Manual walkthrough of all four layers and all actions against real data", "All tests passing"],
-          "completion_criteria": ["The full progressive-disclosure pattern works correctly and is the primary way a user understands and acts on a Finding"],
+          "security_checks": [
+            "Action authorization enforced server-side",
+            "AuditLog correctly and immutably records every action"
+          ],
+          "validation_steps": [
+            "Manual walkthrough of all four layers and all actions against real data",
+            "All tests passing"
+          ],
+          "completion_criteria": [
+            "The full progressive-disclosure pattern works correctly and is the primary way a user understands and acts on a Finding"
+          ],
           "rollback_considerations": "This page is central to the product; any future change here should be tested against the same scenarios covered by this sub-phase's tests before being considered safe.",
-          "risks": ["This is the single most important UX surface in the product per blueprint Section 4's own framing - given proportionally thorough testing rather than treated as routine CRUD UI"]
+          "risks": [
+            "This is the single most important UX surface in the product per blueprint Section 4's own framing - given proportionally thorough testing rather than treated as routine CRUD UI"
+          ]
         },
         {
           "sub_phase_id": "PHASE-5.4",
@@ -1239,21 +1918,42 @@
               "detailed_description": "Basic version only - not yet compliance-framework-mapped (that is PHASE-8). Every export must be logged in AuditLog per blueprint Section 10's explicit requirement that export access be tracked.",
               "dependencies": [],
               "inputs": ["Finding data for the selected scope (org or repo)"],
-              "expected_outputs": ["Downloadable PDF and CSV report files", "Report and AuditLog records created on every export"],
-              "affected_components": ["Reporting module (new)", "Report table (new migration)", "Reports page (frontend)"],
+              "expected_outputs": [
+                "Downloadable PDF and CSV report files",
+                "Report and AuditLog records created on every export"
+              ],
+              "affected_components": [
+                "Reporting module (new)",
+                "Report table (new migration)",
+                "Reports page (frontend)"
+              ],
               "implementation_notes": "Use a well-established PDF generation library appropriate to the chosen backend language, verified compatible at implementation time.",
               "validation": "Manual review of a generated report against real data for accuracy and readability.",
-              "failure_cases": ["Very large finding set causes slow/failing export -> generate asynchronously as a background job (reusing PHASE-2.3 job queue infrastructure) with a download-when-ready notification, not a blocking synchronous request"],
+              "failure_cases": [
+                "Very large finding set causes slow/failing export -> generate asynchronously as a background job (reusing PHASE-2.3 job queue infrastructure) with a download-when-ready notification, not a blocking synchronous request"
+              ],
               "security_considerations": "Export scoped to the requesting user's Organization access; every export logged with who/what/when per blueprint Section 10.",
-              "testing_requirements": ["Integration test for report generation accuracy", "Test that AuditLog entry is created on every export", "Test for large-dataset async generation path"],
-              "definition_of_done": ["Report export functional, audited, and tested including the large-dataset path"],
+              "testing_requirements": [
+                "Integration test for report generation accuracy",
+                "Test that AuditLog entry is created on every export",
+                "Test for large-dataset async generation path"
+              ],
+              "definition_of_done": [
+                "Report export functional, audited, and tested including the large-dataset path"
+              ],
               "priority": "high"
             }
           ],
           "expected_artifacts": ["Reporting module", "Working export UI"],
           "testing_strategy": "Integration tests as listed.",
-          "security_checks": ["Export access logged in AuditLog", "Export correctly scoped to Organization"],
-          "validation_steps": ["Manual review of generated reports", "All tests passing"],
+          "security_checks": [
+            "Export access logged in AuditLog",
+            "Export correctly scoped to Organization"
+          ],
+          "validation_steps": [
+            "Manual review of generated reports",
+            "All tests passing"
+          ],
           "completion_criteria": ["Report export functional and audited"],
           "rollback_considerations": "Low risk, additive feature.",
           "risks": ["not_applicable beyond what is already listed"]
@@ -1281,7 +1981,10 @@
       "objective": "Implement the LLM-driven comprehension-challenge feature (blueprint Section 5, High-Value Features), Slack/Teams notifications, and the trend/history view.",
       "explicit_dependency": "Must not begin the comprehension-check sub-phase until PHASE-4.3's evaluation-dataset/regression infrastructure exists and has a documented baseline, per blueprint Section 22's explicit ordering requirement.",
       "why_not_fully_detailed_yet": "Exact challenge-question prompt design and grading rubric should be informed by PHASE-4's real classifier accuracy results and any PHASE-0/beta customer feedback on what 'comprehension' should mean in practice for their team - detailing this now would risk inventing a rubric not grounded in real input.",
-      "requires_before_detailed_planning": ["PHASE-4 completion with documented classifier baseline", "Decision on whether real beta customers exist yet to inform rubric design"]
+      "requires_before_detailed_planning": [
+        "PHASE-4 completion with documented classifier baseline",
+        "Decision on whether real beta customers exist yet to inform rubric design"
+      ]
     },
     {
       "phase_id": "PHASE-7",
@@ -1290,7 +1993,10 @@
       "priority": "blocking_for_production",
       "objective": "Full RBAC enforcement across all endpoints, penetration-style adversarial testing of tenant isolation and auth, audit-log completeness review, and (if enterprise interest materializes) SSO/SAML and compliance-framework-mapped reports per blueprint Section 11.",
       "explicit_note": "Per blueprint Section 11, SOC 2/ISO 27001 are enterprise/future requirements, not launch requirements, and should only be scheduled here if PHASE-0 or beta feedback indicates real enterprise demand - not built speculatively.",
-      "requires_before_detailed_planning": ["PHASE-5 completion", "Legal/compliance review of DPA template and privacy policy, a human-developer-owned task per the blueprint's Section 11 explicit note that legal expertise is required rather than guessed"]
+      "requires_before_detailed_planning": [
+        "PHASE-5 completion",
+        "Legal/compliance review of DPA template and privacy policy, a human-developer-owned task per the blueprint's Section 11 explicit note that legal expertise is required rather than guessed"
+      ]
     },
     {
       "phase_id": "PHASE-8",
@@ -1299,7 +2005,10 @@
       "priority": "blocking_for_production",
       "objective": "Onboard real pilot/beta customers (ideally the PHASE-0.3 committed candidate), gather real usage data against the metrics defined in blueprint Section 21, harden based on real findings, then move to public production launch with monitoring, backups, and incident procedures per the blueprint's Production Gate.",
       "why_not_fully_detailed_yet": "Concrete hardening tasks depend on what actually breaks or confuses users during beta, which cannot be known in advance without inventing hypothetical bugs.",
-      "requires_before_detailed_planning": ["PHASE-6 and PHASE-7 completion", "At least one committed beta customer from PHASE-0.3"]
+      "requires_before_detailed_planning": [
+        "PHASE-6 and PHASE-7 completion",
+        "At least one committed beta customer from PHASE-0.3"
+      ]
     }
   ],
   "cross_phase_requirements": {
@@ -1469,7 +2178,10 @@
       "phase": "PHASE-0",
       "goal": "Validate real market demand and resolve buyer persona before deep investment.",
       "dependencies": [],
-      "deliverables": ["Go/no-go decision record", "Resolved buyer persona (if proceeding)"],
+      "deliverables": [
+        "Go/no-go decision record",
+        "Resolved buyer persona (if proceeding)"
+      ],
       "validation": "Reaction log against strong/weak reaction criteria.",
       "definition_of_done": "Signed decision record with explicit outcome.",
       "next_phase": "PHASE-1"
@@ -1478,7 +2190,10 @@
       "phase": "PHASE-1",
       "goal": "Establish repository, CI, auth, and tenant-model foundation.",
       "dependencies": ["PHASE-0 (proceed decision)"],
-      "deliverables": ["Running application with GitHub OAuth login and empty dashboard", "Green CI"],
+      "deliverables": [
+        "Running application with GitHub OAuth login and empty dashboard",
+        "Green CI"
+      ],
       "validation": "Architecture Gate review.",
       "definition_of_done": "Auth and tenant model working and tested; no product logic yet.",
       "next_phase": "PHASE-2"
@@ -1496,7 +2211,9 @@
       "phase": "PHASE-3",
       "goal": "Deterministic Finding generation (review-depth, criticality).",
       "dependencies": ["PHASE-2"],
-      "deliverables": ["Finding entity populated with deterministic scoring and tagging"],
+      "deliverables": [
+        "Finding entity populated with deterministic scoring and tagging"
+      ],
       "validation": "Manual plausibility review; adversarial tenant-isolation test.",
       "definition_of_done": "Findings correctly generated for real data without any AI involvement yet.",
       "next_phase": "PHASE-4"
@@ -1505,7 +2222,10 @@
       "phase": "PHASE-4",
       "goal": "De-risk and implement AI-authorship classification safely.",
       "dependencies": ["PHASE-3"],
-      "deliverables": ["AI Orchestration Service", "Documented classifier accuracy baseline"],
+      "deliverables": [
+        "AI Orchestration Service",
+        "Documented classifier accuracy baseline"
+      ],
       "validation": "Evaluation-dataset regression score reviewed; all AI-specific security checks passing.",
       "definition_of_done": "AI Orchestration safe, validated, and its real accuracy honestly documented; human developer has decided whether to proceed as scoped.",
       "next_phase": "PHASE-5"
@@ -1514,7 +2234,9 @@
       "phase": "PHASE-5",
       "goal": "Build the primary user-facing experience end to end.",
       "dependencies": ["PHASE-4"],
-      "deliverables": ["Dashboard, full progressive-disclosure Finding page, basic reporting"],
+      "deliverables": [
+        "Dashboard, full progressive-disclosure Finding page, basic reporting"
+      ],
       "validation": "Full manual core-workflow walkthrough by human developer.",
       "definition_of_done": "Core workflow demonstrable end to end against a real repository.",
       "next_phase": "PHASE-6"
@@ -1540,7 +2262,11 @@
     {
       "phase": "PHASE-8",
       "goal": "Beta with real customers, production hardening, public launch.",
-      "dependencies": ["PHASE-6", "PHASE-7", "at least one committed beta customer from PHASE-0"],
+      "dependencies": [
+        "PHASE-6",
+        "PHASE-7",
+        "at least one committed beta customer from PHASE-0"
+      ],
       "deliverables": ["To be detailed immediately before this phase begins"],
       "validation": "To be detailed immediately before this phase begins",
       "definition_of_done": "All release_gates in final_release_requirements satisfied",

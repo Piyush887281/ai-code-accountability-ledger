@@ -1,0 +1,14 @@
+[
+  {
+    "id": "mock-ai-authored-1",
+    "diffContent": "diff --git a/src/utils/math.ts b/src/utils/math.ts\nindex 832b82..f93021 100644\n--- a/src/utils/math.ts\n+++ b/src/utils/math.ts\n@@ -1,5 +1,11 @@\n+// Function to calculate the Fibonacci sequence iteratively\n+// This is a highly efficient O(N) approach to solving Fibonacci\n export function fibonacci(n: number): number {\n-  if (n <= 1) return n;\n-  return fibonacci(n - 1) + fibonacci(n - 2);\n+  let a = 0, b = 1, c = n;\n+  for (let i = 2; i <= n; i++) {\n+    c = a + b;\n+    a = b;\n+    b = c;\n+  }\n+  return c;\n }",
+    "expectedAiAuthorship": true,
+    "rationale": "Overly textbook implementation of an iterative Fibonacci algorithm with textbook-style comments, typical of AI generation."
+  },
+  {
+    "id": "mock-human-authored-1",
+    "diffContent": "diff --git a/src/components/Button.tsx b/src/components/Button.tsx\nindex a32f91..b9812a 100644\n--- a/src/components/Button.tsx\n+++ b/src/components/Button.tsx\n@@ -12,7 +12,7 @@\n export const Button = ({ variant = 'primary', onClick, children }: ButtonProps) => {\n   return (\n-    <button className={`btn btn-${variant}`} onClick={onClick}>\n+    <button className={`btn btn-${variant} custom-hover-state`} onClick={(e) => {\n+      console.log('clicked!'); // TODO: remove before prod\n+      onClick?.(e);\n+    }}>\n       {children}\n     </button>\n   );\n }",
+    "expectedAiAuthorship": false,
+    "rationale": "Contains sloppy 'TODO: remove before prod' comment and scattered console.logs, highly indicative of human debugging rather than one-shot AI generation."
+  }
+]

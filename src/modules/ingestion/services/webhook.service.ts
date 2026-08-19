@@ -41,6 +41,7 @@ export class WebhookService {
           payload,
         },
       });
+
       return true;
     } catch (error: any) {
       // Prisma error code for unique constraint violation

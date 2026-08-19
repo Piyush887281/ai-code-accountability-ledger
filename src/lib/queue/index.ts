@@ -1,11 +1,12 @@
-import PgBoss from 'pg-boss';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const PgBoss = require('pg-boss');
 
 // Use a singleton pattern to prevent multiple connections in dev (HMR)
 const globalForQueue = globalThis as unknown as {
-  boss: PgBoss | undefined;
+  boss: any | undefined;
 };
 
-let boss: PgBoss;
+let boss: any;
 
 if (globalForQueue.boss) {
   boss = globalForQueue.boss;
@@ -21,13 +22,13 @@ if (globalForQueue.boss) {
     // Optional: add schema option if you want pg-boss to use a different schema than public
   });
 
-  boss.on('error', (error) => console.error('[pg-boss] Error:', error));
+  boss.on('error', (error: Error) => console.error('[pg-boss] Error:', error));
 
   // Initialize asynchronously
   // In Next.js, this might get called multiple times during build, so we handle it gracefully
   boss.start().then(() => {
     console.log('[pg-boss] Queue started');
-  }).catch((e) => {
+  }).catch((e: Error) => {
     // If it's already started, ignore the error
     if (e.message !== 'boss is already started') {
       console.error('[pg-boss] Failed to start:', e);

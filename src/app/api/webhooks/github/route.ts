@@ -39,10 +39,57 @@ export async function POST(req: Request) {
 
     console.log(`[Webhook] Stored new ${event} event (Delivery: ${deliveryId})`);
 
-    // In a full implementation, we would publish this event to the background job queue (pg-boss) here
-    // e.g. await queue.send('webhook-event', { eventId: record.id });
+    // Process the event
+    if (event === "pull_request" && payload.repository && payload.pull_request) {
+      const repoExternalId = payload.repository.id.toString();
+      
+      // Find the repository in our DB
+      const { default: prisma } = await import("@/lib/db");
+      const repoRecord = await prisma.repository.findFirst({
+        where: { externalId: repoExternalId }
+      });
 
-    return NextResponse.json({ message: "Event received and stored" }, { status: 200 });
+      if (repoRecord) {
+        // Upsert PR
+        const prRecord = await prisma.pullRequest.upsert({
+          where: {
+            repositoryId_externalId: {
+              repositoryId: repoRecord.id,
+              externalId: payload.pull_request.number.toString(),
+            }
+          },
+          update: {
+            state: payload.pull_request.state,
+            title: payload.pull_request.title,
+            updatedAt: new Date(payload.pull_request.updated_at),
+          },
+          create: {
+            repositoryId: repoRecord.id,
+            externalId: payload.pull_request.number.toString(),
+            state: payload.pull_request.state,
+            title: payload.pull_request.title,
+            authorName: payload.pull_request.user.login || "unknown",
+            url: payload.pull_request.html_url,
+            createdAt: new Date(payload.pull_request.created_at),
+            updatedAt: new Date(payload.pull_request.updated_at),
+          }
+        });
+
+        // Trigger Finding Analysis
+        try {
+          const { FindingService } = await import("@/modules/analysis/services/finding.service");
+          await FindingService.analyzePullRequest(
+            repoRecord.organizationId, 
+            repoRecord.id, 
+            payload.pull_request.number.toString()
+          );
+        } catch (err) {
+          console.error(`[Webhook] Failed to analyze PR ${payload.pull_request.number}:`, err);
+        }
+      }
+    }
+
+    return NextResponse.json({ message: "Event received and processed" }, { status: 200 });
 
   } catch (error: any) {
     console.error("[Webhook Error]", error);
