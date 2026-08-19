@@ -13,3 +13,5 @@
  * This module is initialized in PHASE-1.4.
  */
 export { auth, signIn, signOut, handlers } from "../../../auth";
+export { OrganizationRepository } from "./repositories/organization.repository";
+export { MembershipRepository } from "./repositories/membership.repository";
